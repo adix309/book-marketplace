@@ -1,0 +1,122 @@
+PROJEKAT – ROADMAP (Book Marketplace App)
+
+LEVEL 1 – Osnova projekta (temelji)
+
+potvrdi da http://localhost:3000/ radi
+
+
+
+LEVEL 2 – Baza i modeli
+Cilj: kostur podataka i konekcija sa bazom.
+Tabele:
+- users (role: ADMIN/SELLER/BUYER)
+- books
+- orders ili transactions
+- messages
+- lookup: genres, languages, conditions, cities
+
+ER dijagram – nacrtati odnose.
+DB: PostgreSQL.
+Node konekcija:
+- pg ili ORM (Sequelize / Prisma).
+Test:
+- model (npr. genres)
+- GET /test-db – prikaz žanrova u EJS-u.
+
+Metafora: Rezervoar, cijevi i ulje – podaci počinju da teku.
+
+
+LEVEL 3 – Auth & Role
+Cilj: sistem zna ko si i šta smiješ.
+Auth:
+- EJS forme
+- POST /register
+- POST /login
+- bcrypt hash za lozinke
+Session:
+Metoda: sessions + cookies.
+Role:
+- users.role = ADMIN | SELLER | BUYER
+Middleware:
+- isLoggedIn
+- hasRole('ADMIN')
+- hasRole('SELLER')
+Zaštićene rute:
+- /seller/books samo za SELLER.
+
+Metafora: Ulaz u zgradu sa bojama narukvica (ADMIN, SELLER, BUYER).
+
+
+LEVEL 4 – Core funkcionalnosti
+Cilj: aplikacija stvarno radi ono zbog čega postoji.
+
+SELLER – CRUD knjiga:
+- GET /seller/books
+- GET /seller/books/new
+- POST /seller/books
+- GET /seller/books/:id/edit
+- POST /seller/books/:id
+- POST /seller/books/:id/delete
+
+Status knjige:
+- aktivna
+- rezervisana
+- prodana
+
+KUPAC:
+Pretraga po:
+- žanru
+- jeziku
+- gradu
+- stanju
+- cijeni
+
+Rute:
+- GET /books
+- GET /books/:id
+- POST /orders
+
+Metafora: Auto se konačno vozi od A do B.
+
+
+LEVEL 5 – Chat & statistika
+Cilj: aplikacija postaje živa i pametna.
+
+Chat tabela:
+messages:
+- from_user
+- to_user
+- text
+- timestamp
+- related_order_id
+
+Stranice:
+- /messages/:userId
+- /orders/:id/chat
+Flow:
+send -> redirect -> vidiš poruku (bez realtime).
+
+Admin statistike:
+- broj korisnika
+- broj knjiga
+- aktivni oglasi
+- prodaje
+- top žanrovi
+SQL: COUNT + GROUP BY.
+Prikaz: tabele / grafovi.
+
+Metafora: Infotainment u autu – ekran i statistike.
+
+
+LEVEL 6 – Custom feature-i
+Cilj: tvoj potpis na projektu.
+
+Ideje:
+- Wishlist
+- Email notifikacije
+- Rating prodavača/knjiga
+- Favorit prodavači
+- Kuponi/popusti
+- PDF export narudžbi
+
+Napomena: Feature-i se biraju tek nakon završetka CORE-a (LEVEL 4).
