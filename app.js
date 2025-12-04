@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const envConfig = require("dotenv").config(); // **********
+const expressLayouts = require("express-ejs-layouts"); // ****************
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -18,6 +22,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  "/bootstrap",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist")) // ***********************
+);
+app.use(expressLayouts); // ***********************
+app.set("layout", "layout-defaultni"); // ***********************
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -39,3 +50,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+// npm run dev
+//npm run sync
