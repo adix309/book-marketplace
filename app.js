@@ -7,8 +7,8 @@ const envConfig = require("dotenv").config();
 const expressLayouts = require("express-ejs-layouts"); 
 
 // ROUTES
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/RoutesForUsers.js');
+
 
 var app = express();
 
@@ -26,18 +26,22 @@ app.set("layout", "layout-defaultni");
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   "/bootstrap",
-  express.static(path.join(__dirname, "node_modules/bootstrap/dist")) 
-);
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist")) );
 
 
-/* ================================
+app.use('/jquery',
+    express.static( path.join(__dirname, 'node_modules/jquery/dist')));
+
+
+
+/*=================================
    DATABASE  ovdje dodaj onaj onm 
-================================ */
+  ================================= */
 
 
 
@@ -45,12 +49,53 @@ app.use(
    AUTH MIDDLEWARE  cokiee
 ================================ */
 
+app.use((req,res,next) => {
+   const publicPaths = [
+      "/users/usersLogin",
+      "/users/usersRegister",
+      "/users/RegisterUser",
+      "/users/LoginUser"];
+   
+      
+      //[1, 3, 5].some(n => n % 2 === 0)   -> false 
+   if (publicPaths.some((p) => req.path.startsWith(p))) {
+    return next();
+  }
+  
+
+   // Uzmi cookie
+  const user = req.signedCookies.user;
+
+   
+  // Ako nema cookie → blokiraj
+  if (!user) {
+    console.log("⛔ NO USER COOKIE – redirecting to login");
+
+    // Ako je GET zahtjev → redirect
+    if (req.method === "GET") {
+      return res.redirect("/users/usersLogin");
+    }
+
+    // Ako je AJAX (POST/PUT/DELETE) → vrati JSON
+    return res.status(403).json({ error: "Not authorized" });
+  }
+
+   // Ako postoji cookie → user je logovan
+  req.user = user;
+
+  console.log("✔ AUTHORIZED USER:", user.email);
+  next();
+});
+
+
 
 /* ================================
    ROUTES
 ================================ */
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+
+app.use('/users', userRouter);
+
 
 /* ================================
    ERROR HANDLERS

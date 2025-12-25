@@ -1,0 +1,302 @@
+<h1><%= title %></h1>
+<p>Welcome, <%= user.first_name %>!</p>
+
+<!-- Logout dugme -->
+<div class="mb-4">
+  <a href="/users/logout" class="btn btn-outline-danger">Logout</a>
+</div>
+
+<section class="section about-section gray-bg" id="about">
+  <div class="container">
+
+    <!-- GORNJI DIO PROFILA -->
+    <div class="row align-items-center flex-row-reverse">
+
+      <!-- DESNA STRANA – TEKST -->
+      <div class="col-lg-6">
+        <div class="about-text go-to">
+
+          <h3 class="dark-color">About Me</h3>
+
+          <h6 class="theme-color lead">
+            <%= user.first_name %> <%= user.last_name %>
+          </h6>
+
+          <p>
+            <%= user.bio || 'Korisnik još nije dodao opis profila.' %>
+          </p>
+
+          <div class="row about-list">
+
+            <!-- LIJEVA KOLONA -->
+            <div class="col-md-6">
+              <div class="media">
+                <label>Status</label>
+                <p><%= user.status %></p>
+              </div>
+
+              <div class="media">
+                <label>Godine</label>
+                <p><%= user.age || 'N/A' %></p>
+              </div>
+
+              <div class="media">
+                <label>Država</label>
+                <p><%= user.country || 'N/A' %></p>
+              </div>
+
+              <div class="media">
+                <label>Grad</label>
+                <p><%= user.city || 'N/A' %></p>
+              </div>
+            </div>
+
+            <!-- DESNA KOLONA -->
+            <div class="col-md-6">
+              <div class="media">
+                <label>E-mail</label>
+                <p><%= user.email %></p>
+              </div>
+
+              <div class="media">
+                <label>Telefon</label>
+                <p><%= user.phone || 'N/A' %></p>
+              </div>
+
+              <div class="media">
+                <label>Spol</label>
+                <p><%= user.gender || 'N/A' %></p>
+              </div>
+
+              <div class="media">
+                <label>Kreiran profil</label>
+                <p>
+                  <%= new Date(user.created_at).toLocaleDateString() %>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- LIJEVA STRANA – AVATAR -->
+      <div class="col-lg-6 text-center">
+        <div class="about-avatar">
+          <img
+            src="https://bootdey.com/img/Content/avatar/avatar7.png"
+            class="img-fluid rounded"
+            alt="avatar">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DONJA STATISTIKA  -->
+    <div class="counter mt-5">
+      <div class="row">
+
+        <div class="col-6 col-lg-3">
+          <div class="count-data text-center">
+            <h6 class="count h2">500</h6>
+            <p class="m-0px font-w-600">Aktivni oglasi</p>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="count-data text-center">
+            <h6 class="count h2">150</h6>
+            <p class="m-0px font-w-600">Završeni oglasi</p>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="count-data text-center">
+            <h6 class="count h2">850</h6>
+            <p class="m-0px font-w-600">Ukupna zarada</p>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="count-data text-center">
+            <h6 class="count h2">190</h6>
+            <p class="m-0px font-w-600">Pending narudžbe</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+<div class="container mt-5">
+
+  <!-- GORNJA AKCIJA -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="m-0">Moje knjige</h3>
+
+    <a href="" class="btn btn-success" id="addBook">
+      + Dodaj knjigu
+    </a>
+  </div>
+
+  <!-- GRID SA KARTICAMA -->
+  <div class="row" id="booksGrid">
+    <% books.forEach(book => { %>
+
+      <div class="col-md-6 col-lg-4 mb-4" id="book_<%= book.id %>">
+
+        <div class="card h-100 shadow-sm border-0">
+
+          <div class="card-body d-flex flex-column">
+
+            <h3 class="card-title mb-2">
+              <%= book.title %>
+            </h3>
+
+            <p class="mb-1">
+              <strong>Autor:</strong> <%= book.author %>
+            </p>
+
+            <p class="mb-1">
+              <strong>Cijena:</strong> <%= book.price %> KM
+            </p>
+
+            <p class="mb-3">
+              <strong>Status:</strong>
+              <span class="badge <%= book.status === 'active' ? 'bg-success' : 'bg-secondary' %>">
+                <%= book.status %>
+              </span>
+            </p>
+
+            <!-- AKCIJE -->
+            <div class="mt-auto d-flex gap-2">
+
+              
+              <button class="btn btn-outline-primary btn-sm w-50"  onclick="azuriraj(<%= book.id %>)">
+                Update
+              </button>
+
+              
+                
+
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger btn-sm w-100"
+                  onclick="brisi(<%= book.id %>)" >
+                  Delete
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    <% }) %>
+  </div>
+</div>
+<div id="div_book_form" class="container mt-4 p-3 border rounded bg-light" style="display: none;">
+
+  <!-- hidden id za edit -->
+  <input type="hidden" id="book_id">
+
+  <form id="book_form" class="form-horizontal">
+
+    <!-- TITLE -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="title">Title:</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          placeholder="Naziv knjige"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- AUTHOR -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="author">Author:</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="author"
+          name="author"
+          placeholder="Ime autora"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- PRICE -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="price">Price:</label>
+      <div class="col-sm-10">
+        <input
+          type="number"
+          step="0.01"
+          class="form-control"
+          id="price"
+          name="price"
+          placeholder="Cijena"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="description">Description:</label>
+      <div class="col-sm-10">
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          placeholder="Opis knjige"
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="status">Status:</label>
+      <div class="col-sm-10">
+        <select class="form-control" id="status" name="status">
+          <option value="active">Active</option>
+          <option value="sold">Sold</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="form-group mt-3">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button id="book_submit_button" type="submit" class="btn btn-success">
+          Save Book
+        </button>
+        <button id="book_cancel_button"  type="button"  class="btn btn-outline-secondary">
+          Cancel
+        </button>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+
+
+
+
+
+
+

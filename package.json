@@ -8,6 +8,7 @@
     "sync": "browser-sync start --proxy \"localhost:3000\" --files \"views/**/*.ejs, public/**/*.*\""
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.8",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -16,6 +17,7 @@
     "express": "~4.16.1",
     "express-ejs-layouts": "^2.5.1",
     "http-errors": "~1.6.3",
+    "jquery": "^3.7.1",
     "morgan": "~1.9.1",
     "pg": "^8.16.3"
   },

@@ -8,6 +8,10 @@
     <!-- Bootstrap CSS -->
      <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <% if (typeof css !== 'undefined') { %>
+         <link rel="stylesheet" href="<%= css %>">
+    <% } %>
+
     
   </head>
    <header>
@@ -55,8 +59,33 @@
   
     <!-- Ovdje se ubacuje sadržaj svake EJS stranice -->
 
+    
+    <script src="/jquery/jquery.min.js"></script>
+
+    <script>
+      console.log("TEST → jQuery =", typeof $);
+      $(document).ready(function () {
+        console.log("TEST → jQuery radi! 🎉");
+      });
+
+        
+    </script>
+
+
     <!-- Bootstrap JS -->
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/javascripts/JS_ZA_login_users.js"></script>    
+    <script src="/javascripts/JS_ZA_ProfilOdUsera.js"></script>   
+
+
+    <!-- probaj mozda ubacit vise js vako 
+    <% if (typeof js !== 'undefined') { %>
+      <script src="<%= js %>"></script>
+    <% } %>
+
+    -->
+
     
   </body>
 </html>
