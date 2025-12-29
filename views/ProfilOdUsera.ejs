@@ -1,10 +1,15 @@
 <h1><%= title %></h1>
 <p>Welcome, <%= user.first_name %>!</p>
 
-<!-- Logout dugme -->
-<div class="mb-4">
-  <a href="/users/logout" class="btn btn-outline-danger">Logout</a>
-</div>
+
+
+<!-- From Uiverse.io by mrhyddenn --> 
+<button class="button">
+    <span class="button_lg">
+        <span class="button_sl"></span>
+        <span class="button_text"><a href="/users/logout">Logout</a></span>
+    </span>
+</button>
 
 <section class="section about-section gray-bg" id="about">
   <div class="container">
@@ -119,8 +124,8 @@
 
         <div class="col-6 col-lg-3">
           <div class="count-data text-center">
-            <h6 class="count h2">190</h6>
-            <p class="m-0px font-w-600">Pending narudžbe</p>
+            <h6 class="count h2">7.2</h6>
+            <p class="m-0px font-w-600">Prosjecna ocjena</p>
           </div>
         </div>
 
@@ -129,76 +134,109 @@
 
   </div>
 </section>
+
+
+
+
 <div class="container mt-5">
 
   <!-- GORNJA AKCIJA -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="m-0">Moje knjige</h3>
 
-    <a href="" class="btn btn-success" id="addBook">
+    <a  id="addBook" class="btn btn-success">
       + Dodaj knjigu
     </a>
   </div>
 
   <!-- GRID SA KARTICAMA -->
-  <div class="row" id="booksGrid">
+  <div class="row g-4" id="booksGrid">
     <% books.forEach(book => { %>
 
       <div class="col-md-6 col-lg-4 mb-4" id="book_<%= book.id %>">
 
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
 
+          <!-- KARTICA BODY -->
           <div class="card-body d-flex flex-column">
 
-            <h3 class="card-title mb-2">
+            <!-- Naslov i autor -->
+            <h5 class="card-title mb-2">
               <%= book.title %>
-            </h3>
-
-            <p class="mb-1">
+            </h5>
+            <p class="mb-1 text-muted">
               <strong>Autor:</strong> <%= book.author %>
             </p>
 
-            <p class="mb-1">
-              <strong>Cijena:</strong> <%= book.price %> KM
+            <!-- Cijena -->
+            <p class="mb-3">
+              <strong>Cijena:</strong> <%= book.price == 0 ? 'Razmjena' : book.price + ' KM' %>
             </p>
 
+            <!-- Status -->
             <p class="mb-3">
               <strong>Status:</strong>
-              <span class="badge <%= book.status === 'active' ? 'bg-success' : 'bg-secondary' %>">
+              <% 
+                let badgeClass = 'bg-secondary';
+                if (book.status === 'AKTIVNA') badgeClass = 'bg-success';
+                else if (book.status === 'REZERVISANA') badgeClass = 'bg-warning';
+                else if (book.status === 'PRODANA') badgeClass = 'bg-danger';
+                else if (book.status === 'RAZMIJENJENA') badgeClass = 'bg-info';
+                else if (book.status === 'ARHIVIRANA') badgeClass = 'bg-dark';
+              %>
+              <span class="badge <%= badgeClass %> px-3 py-2">
                 <%= book.status %>
               </span>
             </p>
 
-            <!-- AKCIJE -->
-            <div class="mt-auto d-flex gap-2">
+            <!-- Godina izdanja i žanr -->
+            <div class="d-flex justify-content-between text-muted mb-3">
+              <small><strong>Godina izdanja:</strong> <%= book.publication_year || 'Nema podataka' %></small>
+              <small><strong>Žanr:</strong> <%= book.genre || 'Nema podataka' %></small>
+            </div>
 
+            <!-- Opis -->
+            <% if (book.description) { %>
+              <div class="border-top pt-2">
+                <p class="small text-muted"><%= book.description.length > 120 ? book.description.substring(0, 120) + '...' : book.description %></p>
+              </div>
+            <% } %>
+
+          </div>
+
+          <!-- KARTICA FOOTER -->
+          <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center pt-3">
+            
+            <!-- Akcije (Update i Delete) -->
+            <div class="btn-group">
+              <a  onclick="azuriraj(<%= book.id %>,books)" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil-square"></i> Update
+              </a>
               
-              <button class="btn btn-outline-primary btn-sm w-50"  onclick="azuriraj(<%= book.id %>)">
-                Update
-              </button>
-
-              
-                
-
-                <button
-                  type="submit"
-                  class="btn btn-outline-danger btn-sm w-100"
-                  onclick="brisi(<%= book.id %>)" >
-                  Delete
+                <button type="submit" onclick="brisi(<%= book.id %>)" class="btn btn-outline-danger btn-sm">
+                  <i class="bi bi-trash"></i> Delete
                 </button>
-
-              </form>
-
+              
             </div>
 
           </div>
+
         </div>
       </div>
 
     <% }) %>
   </div>
+
+
+
 </div>
-<div id="div_book_form" class="container mt-4 p-3 border rounded bg-light" style="display: none;">
+
+
+
+
+
+
+<div id="div_book_form" class="container mt-4 p-4 border rounded bg-light" style="display: none;">
 
   <!-- hidden id za edit -->
   <input type="hidden" id="book_id">
@@ -206,87 +244,179 @@
   <form id="book_form" class="form-horizontal">
 
     <!-- TITLE -->
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="title">Title:</label>
-      <div class="col-sm-10">
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          name="title"
-          placeholder="Naziv knjige"
-          required
-        >
-      </div>
+    <div class="form-group mb-3">
+      <label for="title">Naziv knjige </label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        placeholder="Naziv knjige"
+        required
+      >
     </div>
 
     <!-- AUTHOR -->
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="author">Author:</label>
-      <div class="col-sm-10">
-        <input
-          type="text"
-          class="form-control"
-          id="author"
-          name="author"
-          placeholder="Ime autora"
-          required
-        >
-      </div>
+    <div class="form-group mb-3">
+      <label for="author">Autor </label>
+      <input
+        type="text"
+        class="form-control"
+        id="author"
+        name="author"
+        placeholder="Ime autora"
+        required
+      >
+    </div>
+
+    <!-- PUBLISHER -->
+    <div class="form-group mb-3">
+      <label for="publisher">Izdavač</label>
+      <input
+        type="text"
+        class="form-control"
+        id="publisher"
+        name="publisher"
+        placeholder="Naziv izdavača"
+        required
+      >
+    </div>
+
+    <!-- PUBLICATION YEAR -->
+    <div class="form-group mb-3">
+      <label for="publication_year">Godina izdanja</label>
+      <input
+        type="number"
+        class="form-control"
+        id="publication_year"
+        name="publication_year"
+        placeholder="npr. 2015"
+        min="1400"
+        max="2200"
+        required
+      >
+    </div>
+
+    <!-- GENRE -->
+    <div class="form-group mb-3">
+      <label for="genre">Žanr</label>
+      <select class="form-control" id="genre" name="genre">
+        <option value="">-- odaberi žanr --</option>
+        <option value="Roman">Roman</option>
+        <option value="Triler">Triler</option>
+        <option value="Fantazija">Fantazija</option>
+        <option value="Naučna fantastika">Naučna fantastika</option>
+        <option value="Biografija">Biografija</option>
+        <option value="Historija">Historija</option>
+        <option value="Poezija">Poezija</option>
+        <option value="Drama">Drama</option>
+        <option value="Psihologija">Psihologija</option>
+        <option value="Dječija literatura">Dječija literatura</option>
+      </select>
+    </div>
+
+    <!-- LANGUAGE -->
+    <div class="form-group mb-3">
+      <label for="language">Jezik</label>
+      <select class="form-control" id="language" name="language">
+        <option value="">-- odaberi jezik --</option>
+        <option value="Bosanski">Bosanski</option>
+        <option value="Hrvatski">Hrvatski</option>
+        <option value="Srpski">Srpski</option>
+        <option value="Engleski">Engleski</option>
+        <option value="Njemački">Njemački</option>
+        <option value="Francuski">Francuski</option>
+        <option value="Španski">Španski</option>
+        <option value="Italijanski">Italijanski</option>
+        <option value="Turski">Turski</option>
+        <option value="Arapski">Arapski</option>
+      </select>
+    </div>
+
+    <!-- CONDITION -->
+    <div class="form-group mb-3">
+      <label for="condition">Stanje knjige</label>
+      <select class="form-control" id="condition" name="condition">
+        <option value="">-- odaberi stanje --</option>
+        <option value="1">1 - Jako loše</option>
+        <option value="2">2 - Loše</option>
+        <option value="3">3 - Solidno</option>
+        <option value="4">4 - Vrlo dobro</option>
+        <option value="5">5 - Kao novo</option>
+      </select>
     </div>
 
     <!-- PRICE -->
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="price">Price:</label>
-      <div class="col-sm-10">
-        <input
-          type="number"
-          step="0.01"
-          class="form-control"
-          id="price"
-          name="price"
-          placeholder="Cijena"
-          required
-        >
-      </div>
+    <div class="form-group mb-3">
+      <label for="price">Cijena (KM)</label>
+      <input
+        type="number"
+        step="0.01"
+        min="0"
+        class="form-control"
+        id="price"
+        name="price"
+        placeholder="0 ako je samo razmjena"
+        required
+      >
     </div>
 
+    <!-- EXCHANGE -->
+    <div class="form-group form-check mb-3">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="exchange_available"
+        name="exchange_available"
+      >
+      <label class="form-check-label" for="exchange_available">
+        Moguća razmjena
+      </label>
+    </div>
+
+    
+    <!-- LOCATION -->
+   <!--    <div class="form-group mb-3">
+      <label for="city_id">Lokacija preuzimanja</label>
+      <select class="form-control" id="city_id" name="city_id">
+        <option value="">-- odaberi grad --</option>
+       
+      </select>
+    </div> 
+    -->
+
     <!-- DESCRIPTION -->
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="description">Description:</label>
-      <div class="col-sm-10">
-        <textarea
-          class="form-control"
-          id="description"
-          name="description"
-          placeholder="Opis knjige"
-          rows="3"
-        ></textarea>
-      </div>
+    <div class="form-group mb-4">
+      <label for="description">Opis</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="4"
+        placeholder="Opis knjige"
+      ></textarea>
     </div>
 
     <!-- STATUS -->
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="status">Status:</label>
-      <div class="col-sm-10">
-        <select class="form-control" id="status" name="status">
-          <option value="active">Active</option>
-          <option value="sold">Sold</option>
-        </select>
-      </div>
+    <div class="form-group mb-4">
+      <label for="status">Status *</label>
+      <select class="form-control" id="status" name="status" required>
+        <option value="AKTIVNA">Aktivna</option>
+        <option value="REZERVISANA">Rezervisana</option>
+        <option value="PRODANA">Prodana</option>
+        <option value="RAZMIJENJENA">Razmijenjena</option>
+        <option value="ARHIVIRANA">Arhivirana</option>
+      </select>
     </div>
 
-    <!-- SUBMIT -->
-    <div class="form-group mt-3">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button id="book_submit_button" type="submit" class="btn btn-success">
-          Save Book
-        </button>
-        <button id="book_cancel_button"  type="button"  class="btn btn-outline-secondary">
-          Cancel
-        </button>
-
-      </div>
+    <!-- BUTTONS -->
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success" id="book_submit_button">
+        Sačuvaj knjigu
+      </button>
+      <button type="button" id="book_cancel_button" class="btn btn-outline-secondary">
+        Otkaži
+      </button>
     </div>
 
   </form>
@@ -294,7 +424,9 @@
 
 
 
-
+<script>
+  window.books = <%- JSON.stringify(books) %>;
+</script>
 
 
 

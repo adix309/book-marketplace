@@ -1,50 +1,58 @@
-
 window.azuriraj = function (id) {
   console.log("Update book:", id);
+  console.log(books);
+  
 
-  const card = $(`#book_${id}`);
-  const title = card.find(".card-title").text().trim();
-  const author = card.find("p").eq(0).text().replace("Autor:", "").trim();
-  const price = card.find("p").eq(1).text()
-    .replace("Cijena:", "")
-    .replace("KM", "")
-    .trim();
+  const book = window.books.find(b => b.id === id);
+  console.log(book);
 
-  const status = card.find(".badge").text().trim();
-
+ if (!book) {
+    console.error("Knjiga nije pronađena", id);
+    return;  }
 
   $("#div_book_form").show();
 
+  $("#book_id").val(book.id);
+  $("#title").val(book.title);
+  $("#author").val(book.author);
+  $("#publisher").val(book.publisher);
+  $("#publication_year").val(book.publication_year);
+  $("#genre").val(book.genre);
+  $("#language").val(book.language);
+  $("#condition").val(book.condition);
+  $("#price").val(book.price);
+  $("#exchange_available").prop("checked", book.exchange_available == 1);
+  $("#description").val(book.description);
+  $("#status").val(book.status);
 
-  $("#book_id").val(id);
-  $("#title").val(title);
-  $("#author").val(author);
-  $("#price").val(price);
-  $("#status").val(status);
-
-  // promijeni dugme
   $("#book_submit_button").text("Update Book");
+
+  console.log(book.publisher);
+
 };
 
 
+
+
 window.brisi = function (id) {
-   if (!confirm("Are you sure?")) return;
-  console.log("brisi");
+  if (!confirm("Are you sure?")) return;
+  console.log("Deleting book...");
 
   $.ajax({
     url: `/users/delete/${id}`,
     method: "DELETE",
 
     success: () => {
-      $(`#book_${id}`).remove();
+      $(`#book_${id}`).remove(); // Uklanja karticu sa stranice
     },
 
     error: (e) => {
       console.error(e);
-      alert("Error deleting subject!");
+      alert("Error deleting book!!!!!!!!!!!");
     },
   });
-}
+};
+
   
   
 
@@ -61,26 +69,33 @@ $(function () {
 
     $("#book_id").val(""); 
     $("#book_form")[0].reset();
-    $("#book_submit_button").text("Save Book");
+    $("#book_submit_button").text("Dodaj knjigu");
 
     $("#div_book_form").show();
   })
 
   $("#book_form").on("submit", function (e) {
     e.preventDefault();
+    console.log("saddd-----------------")
 
-
-    const id = $("#book_id").val(); // ako postoji → UPDATE
+    const id = $("#book_id").val(); // ako si klikno addBook ovo ima vrjednost "",ako si update ima id 
     const title = $("#title").val().trim();
     const author = $("#author").val().trim();
     const price = $("#price").val().trim();
     const description = $("#description").val().trim();
     const status = $("#status").val();
-   
+    const publication_year = $("#publication_year").val().trim();
+    const genre = $("#genre").val().trim();
+    const language = $("#language").val().trim();
+    const condition = $("#condition").val().trim();
+    const exchange_available = $("#exchange_available").prop("checked"); // Ako je checkbox označen
+    const publisher = $("#publisher").val().trim();
 
+    
 
-    if (!title || !author || !price) {
-      alert("Title, Author and Price are required.");
+    // Validacija
+    if (!title || !author || !price || !status) {
+      alert("Title, Author, Price, and Status are required.");
       return;
     }
 
@@ -97,58 +112,73 @@ $(function () {
         
         url: "/users/addbooks",
         method: "POST",
-        data: {title,author,price,description,status},
+       data: {
+          title,
+          author,
+          price,
+          description,
+          status,
+          publication_year,
+          genre,
+          language,
+          condition,
+          exchange_available,
+          publisher
+        },
         success: (res) => {
             const book = res.book[0];
            
             console.log(book);
             console.log(book[0]);
-            const badgeClass =
-              book.status === "active" ? "bg-success" : "bg-secondary";
+            
+            const badgeClass = book.status === "AKTIVNA" ? "bg-success" : "bg-secondary";
 
-            const bookCard = `
-              <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                  <div class="card-body d-flex flex-column">
+            // Generiši HTML za karticu knjige
+const bookCard = `
+  <div class="col-md-6 col-lg-4 mb-4" id="book_${book.id}">
+    <div class="card h-100 shadow-sm border-0 rounded-4">
+      
+      <!-- KARTICA BODY -->
+      <div class="card-body d-flex flex-column">
+        
+        <h3 class="card-title mb-2">${book.title}</h3>
+        <p class="mb-1"><strong>Autor:</strong> ${book.author}</p>
+        <p class="mb-1"><strong>Cijena:</strong> ${book.price} KM</p>
+        <p class="mb-3">
+          <strong>Status:</strong>
+          <span class="badge ${badgeClass}">${book.status}</span>
+        </p>
+        
+        <!-- Godina i Žanr -->
+        <div class="d-flex justify-content-between text-muted mb-3">
+          <small><strong>Godina izdanja:</strong> ${book.publication_year || 'N/A'}</small>
+          <small><strong>Žanr:</strong> ${book.genre || 'N/A'}</small>
+        </div>
 
-                    <h3 class="card-title mb-2">${book.title}</h3>
+        <!-- Opis knjige -->
+        <p class="small text-muted">
+          ${book.description ? (book.description.length > 120 ? book.description.substring(0, 120) + '...' : book.description) : 'Nema opisa'}
+        </p>
+      </div>
+      
+      <!-- KARTICA FOOTER -->
+      <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+        <!-- Update and Delete buttons -->
+        <div class="btn-group">
+          <a href="/books/edit/${book.id}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-pencil-square"></i> Update
+          </a>
+          <form action="/books/delete/${book.id}" method="POST" class="ms-2" onsubmit="return confirm('Želite li obrisati ovu knjigu?')">
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
 
-                    <p class="mb-1">
-                      <strong>Autor:</strong> ${book.author}
-                    </p>
-
-                    <p class="mb-1">
-                      <strong>Cijena:</strong> ${book.price} KM
-                    </p>
-
-                    <p class="mb-3">
-                      <strong>Status:</strong>
-                      <span class="badge ${badgeClass}">
-                        ${book.status} 
-                      </span>
-                    </p>
-
-                    <div class="mt-auto d-flex gap-2">
-                      <a href="/books/edit/${book.id}"
-                        class="btn btn-outline-primary btn-sm w-50">
-                        Update
-                      </a>
-
-                      <form action="/books/delete/${book.id}"
-                            method="POST"
-                            class="w-50"
-                            onsubmit="return confirm('Jesi siguran?');">
-
-                        <button type="submit"
-                                class="btn btn-outline-danger btn-sm w-100">
-                          Delete
-                        </button>
-                      </form>
-                    </div>
-
-                  </div>
-                </div>
-              </div> `;
 
             $("#booksGrid").prepend(bookCard);
 
@@ -180,6 +210,12 @@ $(function () {
           price,
           description,
           status,
+          publication_year,
+          genre,
+          language,
+          condition,
+          exchange_available,
+          publisher
         }),
 
         success: (res) => {
@@ -203,7 +239,7 @@ $(function () {
   });
 
 
-
-
 })
+
+
 

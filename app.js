@@ -8,6 +8,7 @@ const expressLayouts = require("express-ejs-layouts");
 
 // ROUTES
 var userRouter = require('./routes/RoutesForUsers.js');
+var buyerRouter = require('./routes/RoutesForBuyer.js');
 
 
 var app = express();
@@ -88,15 +89,14 @@ app.use((req,res,next) => {
 });
 
 
-
 /* ================================
    ROUTES
 ================================ */
 
-
-app.use('/users', userRouter);
-
-
+console.log("doslo----------------------------------------");
+app.use("/users", userRouter);
+app.use("/buyer",buyerRouter);
+console.log("nijeeeeeeeee----------------------------------------");
 /* ================================
    ERROR HANDLERS
 ================================ */

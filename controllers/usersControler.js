@@ -48,13 +48,13 @@ async LoginUser(req,res,next){
         if(!email || !password){
             return res.status(400).send("email and password are required.");}
 
-        console.log(email,password);
+        
         const user = await userservice.loginUser(email, password);
        
        //cookie
        res.cookie(
         "user",
-        {id: user.id, email: user.email},
+        {id: user.id, email: user.email,role:user.role},
         {
         httpOnly: true,
         signed: true,
@@ -70,6 +70,7 @@ async LoginUser(req,res,next){
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
+          role:user.role
         },
       });
 
@@ -86,14 +87,17 @@ async LoginUser(req,res,next){
 //POST RUTA 
 async RegisterUser(req,res,next){
     try{
-      const { first_name, last_name, email, password, age ,gender,phone,country,city,role,status,bio  } = req.body;
+      
+
+      const { first_name, last_name, email, password, age ,gender,phone,country,city,
+        role,status,bio,selectedGenres,selectedLanguages } = req.body;
       if (!email || !password) {
         return res.status(400).send("Email and password are required.");
       }
       
-
+    
        const user = await userservice.registerUser(
-        first_name, last_name, email, password, age ,gender,phone,country,city,role,status,bio    );
+        first_name, last_name, email, password, age ,gender,phone,country,city,role,status,bio,selectedGenres,selectedLanguages );
 
         
 
@@ -115,8 +119,18 @@ logout(req, res) {
 async addbooks(req,res){
     try{
     const seller_id = req.signedCookies.user.id ;
-    const {title,author,price,description,status} = req.body;
-    const newBook = await userservice.addbooks(seller_id,title,author,price,description,status);
+    const {title,author,price,description,status,publication_year,genre, language,condition,exchange_available,publisher} = req.body;
+  
+    const newBook = await userservice.addbooks(seller_id,title,
+          author,
+          price,
+          description,
+          status,
+          publication_year,
+          genre,
+          language,
+          condition,
+          exchange_available,publisher);
         
     res.status(201).json({
       message: "Book added successfully",
@@ -131,10 +145,15 @@ async addbooks(req,res){
 },
 
 async updatebook(req,res){
-    
     try{
-    const { id,title,author,price,description,status} =req.body;  
-    const updatebook = await userservice.updatebook(id,title,author,price,description,status);
+    
+    const { id,title,author,price,description,status,publication_year,genre, language,condition,exchange_available,publisher} =req.body;  
+    
+    console.log("publisher  izdanja ",publisher);
+    if (!id || !price || !publication_year) {
+    throw new Error('iz controlera Invalid input: id, price, or publication_year is missing or not a number');
+  }
+    const updatebook = await userservice.updatebook(id,title,author,price,description,status,publication_year,genre, language,condition,exchange_available,publisher);
     res.status(201).json({
       message: "Book added successfully",
       book: updatebook

@@ -18,13 +18,15 @@ async loginUser(email, password){
 
 },
 
-async registerUser(first_name, last_name, email, password, age ,gender,phone,country,city,role,status,bio){
+async registerUser(first_name, last_name, email, password, age ,gender,phone,country,city,role,status,bio,selectedGenres,selectedLanguages){
     const existing = await query.GetByEmail(email);
     if (existing) {
       throw new Error("Email already in use."); }
+
+    
     
     const hashedPassword = await bcrypt.hash(password, saltRound);
-    const newUser = await query.InsertUser(first_name, last_name, email, hashedPassword, age ,gender,phone,country,city,role,status,bio);
+    const newUser = await query.InsertUser(first_name, last_name, email, hashedPassword, age ,gender,phone,country,city,role,status,bio,selectedGenres,selectedLanguages);
     return newUser;
 
 
@@ -45,12 +47,32 @@ async getBooksByUser(id){
 
 },
 
-async addbooks(seller_id,title,author,price,description,status){
-    return await query.addbooks(seller_id,title,author,price,description,status);
+async  addbooks(
+  seller_id,  
+  title,
+  author,
+  price,
+  description,
+  status,
+  publication_year,
+  genre,
+  language,
+  condition,
+  exchange_available,
+  publisher
+) {
+  
+    return await query.addbooks(seller_id,title,author,price,description,status,publication_year,genre,language,condition,exchange_available,publisher);
+ 
 },
 
-async updatebook(id,title,author,price,description,status){
-    return await query.updatebook(id,title,author,price,description,status);
+
+
+async updatebook(id,title,author,price,description,status,publication_year,genre, language,condition,exchange_available,publisher){
+   if (!id || !price || !publication_year) {
+    throw new Error('iz service Invalid input: id, price, or publication_year is missing or not a number');
+  }
+    return await query.updatebook(id,title,author,price,description,status,publication_year,genre, language,condition,exchange_available,publisher);
 },
 async deletebook(id){
     return await query.deletebook(id);
