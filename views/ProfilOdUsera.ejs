@@ -1,14 +1,15 @@
-<h1><%= title %></h1>
+<h1>
+  <%= title %>
+</h1>
 <p>Welcome, <%= user.first_name %>!</p>
 
 
 
-<!-- From Uiverse.io by mrhyddenn --> 
 <button class="button">
-    <span class="button_lg">
-        <span class="button_sl"></span>
-        <span class="button_text"><a href="/users/logout">Logout</a></span>
-    </span>
+  <span class="button_lg">
+    <span class="button_sl"></span>
+    <span class="button_text"><a href="/users/logout">Logout</a></span>
+  </span>
 </button>
 
 <section class="section about-section gray-bg" id="about">
@@ -24,7 +25,8 @@
           <h3 class="dark-color">About Me</h3>
 
           <h6 class="theme-color lead">
-            <%= user.first_name %> <%= user.last_name %>
+            <%= user.first_name %>
+              <%= user.last_name %>
           </h6>
 
           <p>
@@ -37,22 +39,30 @@
             <div class="col-md-6">
               <div class="media">
                 <label>Status</label>
-                <p><%= user.status %></p>
+                <p>
+                  <%= user.status %>
+                </p>
               </div>
 
               <div class="media">
                 <label>Godine</label>
-                <p><%= user.age || 'N/A' %></p>
+                <p>
+                  <%= user.age || 'N/A' %>
+                </p>
               </div>
 
               <div class="media">
                 <label>Država</label>
-                <p><%= user.country || 'N/A' %></p>
+                <p>
+                  <%= user.country || 'N/A' %>
+                </p>
               </div>
 
               <div class="media">
                 <label>Grad</label>
-                <p><%= user.city || 'N/A' %></p>
+                <p>
+                  <%= user.city || 'N/A' %>
+                </p>
               </div>
             </div>
 
@@ -60,17 +70,23 @@
             <div class="col-md-6">
               <div class="media">
                 <label>E-mail</label>
-                <p><%= user.email %></p>
+                <p>
+                  <%= user.email %>
+                </p>
               </div>
 
               <div class="media">
                 <label>Telefon</label>
-                <p><%= user.phone || 'N/A' %></p>
+                <p>
+                  <%= user.phone || 'N/A' %>
+                </p>
               </div>
 
               <div class="media">
                 <label>Spol</label>
-                <p><%= user.gender || 'N/A' %></p>
+                <p>
+                  <%= user.gender || 'N/A' %>
+                </p>
               </div>
 
               <div class="media">
@@ -88,10 +104,7 @@
       <!-- LIJEVA STRANA – AVATAR -->
       <div class="col-lg-6 text-center">
         <div class="about-avatar">
-          <img
-            src="https://bootdey.com/img/Content/avatar/avatar7.png"
-            class="img-fluid rounded"
-            alt="avatar">
+          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="img-fluid rounded" alt="avatar">
         </div>
       </div>
 
@@ -144,14 +157,22 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="m-0">Moje knjige</h3>
 
-    <a  id="addBook" class="btn btn-success">
-      + Dodaj knjigu
-    </a>
+    <div>
+      <a id="addBook" class="btn btn-success">
+        + Dodaj knjigu
+      </a>
+      <a class="btn btn-success" href="/users/cart/">
+        Narudžbe
+      </a>
+    </div>
+
+
   </div>
+
 
   <!-- GRID SA KARTICAMA -->
   <div class="row g-4" id="booksGrid">
-    <% books.forEach(book => { %>
+    <% books.forEach(book=> { %>
 
       <div class="col-md-6 col-lg-4 mb-4" id="book_<%= book.id %>">
 
@@ -165,58 +186,62 @@
               <%= book.title %>
             </h5>
             <p class="mb-1 text-muted">
-              <strong>Autor:</strong> <%= book.author %>
+              <strong>Autor:</strong>
+              <%= book.author %>
             </p>
 
             <!-- Cijena -->
             <p class="mb-3">
-              <strong>Cijena:</strong> <%= book.price == 0 ? 'Razmjena' : book.price + ' KM' %>
+              <strong>Cijena:</strong>
+              <%= book.price==0 ? 'Razmjena' : book.price + ' KM' %>
             </p>
 
             <!-- Status -->
             <p class="mb-3">
               <strong>Status:</strong>
-              <% 
-                let badgeClass = 'bg-secondary';
-                if (book.status === 'AKTIVNA') badgeClass = 'bg-success';
-                else if (book.status === 'REZERVISANA') badgeClass = 'bg-warning';
-                else if (book.status === 'PRODANA') badgeClass = 'bg-danger';
-                else if (book.status === 'RAZMIJENJENA') badgeClass = 'bg-info';
-                else if (book.status === 'ARHIVIRANA') badgeClass = 'bg-dark';
-              %>
-              <span class="badge <%= badgeClass %> px-3 py-2">
-                <%= book.status %>
-              </span>
+              <% let badgeClass='bg-secondary' ; if (book.status==='AKTIVNA' ) badgeClass='bg-success' ; else if
+                (book.status==='REZERVISANA' ) badgeClass='bg-warning' ; else if (book.status==='PRODANA' )
+                badgeClass='bg-danger' ; else if (book.status==='RAZMIJENJENA' ) badgeClass='bg-info' ; else if
+                (book.status==='ARHIVIRANA' ) badgeClass='bg-dark' ; %>
+                <span class="badge <%= badgeClass %> px-3 py-2">
+                  <%= book.status %>
+                </span>
             </p>
 
             <!-- Godina izdanja i žanr -->
             <div class="d-flex justify-content-between text-muted mb-3">
-              <small><strong>Godina izdanja:</strong> <%= book.publication_year || 'Nema podataka' %></small>
-              <small><strong>Žanr:</strong> <%= book.genre || 'Nema podataka' %></small>
+              <small><strong>Godina izdanja:</strong>
+                <%= book.publication_year || 'Nema podataka' %>
+              </small>
+              <small><strong>Žanr:</strong>
+                <%= book.genre || 'Nema podataka' %>
+              </small>
             </div>
 
             <!-- Opis -->
             <% if (book.description) { %>
               <div class="border-top pt-2">
-                <p class="small text-muted"><%= book.description.length > 120 ? book.description.substring(0, 120) + '...' : book.description %></p>
+                <p class="small text-muted">
+                  <%= book.description.length> 120 ? book.description.substring(0, 120) + '...' : book.description %>
+                </p>
               </div>
-            <% } %>
+              <% } %>
 
           </div>
 
           <!-- KARTICA FOOTER -->
           <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center pt-3">
-            
+
             <!-- Akcije (Update i Delete) -->
             <div class="btn-group">
-              <a  onclick="azuriraj(<%= book.id %>,books)" class="btn btn-outline-primary btn-sm">
+              <a onclick="azuriraj(<%= book.id %>,books)" class="btn btn-outline-primary btn-sm">
                 <i class="bi bi-pencil-square"></i> Update
               </a>
-              
-                <button type="submit" onclick="brisi(<%= book.id %>)" class="btn btn-outline-danger btn-sm">
-                  <i class="bi bi-trash"></i> Delete
-                </button>
-              
+
+              <button type="submit" onclick="brisi(<%= book.id %>)" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+
             </div>
 
           </div>
@@ -224,7 +249,7 @@
         </div>
       </div>
 
-    <% }) %>
+      <% }) %>
   </div>
 
 
@@ -246,55 +271,26 @@
     <!-- TITLE -->
     <div class="form-group mb-3">
       <label for="title">Naziv knjige </label>
-      <input
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        placeholder="Naziv knjige"
-        required
-      >
+      <input type="text" class="form-control" id="title" name="title" placeholder="Naziv knjige" required>
     </div>
 
     <!-- AUTHOR -->
     <div class="form-group mb-3">
       <label for="author">Autor </label>
-      <input
-        type="text"
-        class="form-control"
-        id="author"
-        name="author"
-        placeholder="Ime autora"
-        required
-      >
+      <input type="text" class="form-control" id="author" name="author" placeholder="Ime autora" required>
     </div>
 
     <!-- PUBLISHER -->
     <div class="form-group mb-3">
       <label for="publisher">Izdavač</label>
-      <input
-        type="text"
-        class="form-control"
-        id="publisher"
-        name="publisher"
-        placeholder="Naziv izdavača"
-        required
-      >
+      <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Naziv izdavača" required>
     </div>
 
     <!-- PUBLICATION YEAR -->
     <div class="form-group mb-3">
       <label for="publication_year">Godina izdanja</label>
-      <input
-        type="number"
-        class="form-control"
-        id="publication_year"
-        name="publication_year"
-        placeholder="npr. 2015"
-        min="1400"
-        max="2200"
-        required
-      >
+      <input type="number" class="form-control" id="publication_year" name="publication_year" placeholder="npr. 2015"
+        min="1400" max="2200" required>
     </div>
 
     <!-- GENRE -->
@@ -302,16 +298,12 @@
       <label for="genre">Žanr</label>
       <select class="form-control" id="genre" name="genre">
         <option value="">-- odaberi žanr --</option>
-        <option value="Roman">Roman</option>
-        <option value="Triler">Triler</option>
-        <option value="Fantazija">Fantazija</option>
-        <option value="Naučna fantastika">Naučna fantastika</option>
-        <option value="Biografija">Biografija</option>
-        <option value="Historija">Historija</option>
-        <option value="Poezija">Poezija</option>
-        <option value="Drama">Drama</option>
-        <option value="Psihologija">Psihologija</option>
-        <option value="Dječija literatura">Dječija literatura</option>
+
+        <% allgenres.forEach(genre=> { %>
+          <option value="<%= genre.id %>">
+            <%= genre.name %>
+          </option>
+          <% }) %>
       </select>
     </div>
 
@@ -320,17 +312,14 @@
       <label for="language">Jezik</label>
       <select class="form-control" id="language" name="language">
         <option value="">-- odaberi jezik --</option>
-        <option value="Bosanski">Bosanski</option>
-        <option value="Hrvatski">Hrvatski</option>
-        <option value="Srpski">Srpski</option>
-        <option value="Engleski">Engleski</option>
-        <option value="Njemački">Njemački</option>
-        <option value="Francuski">Francuski</option>
-        <option value="Španski">Španski</option>
-        <option value="Italijanski">Italijanski</option>
-        <option value="Turski">Turski</option>
-        <option value="Arapski">Arapski</option>
+
+        <% alllanguages.forEach(lang=> { %>
+          <option value="<%= lang.id %>">
+            <%= lang.name %>
+          </option>
+          <% }) %>
       </select>
+
     </div>
 
     <!-- CONDITION -->
@@ -349,34 +338,21 @@
     <!-- PRICE -->
     <div class="form-group mb-3">
       <label for="price">Cijena (KM)</label>
-      <input
-        type="number"
-        step="0.01"
-        min="0"
-        class="form-control"
-        id="price"
-        name="price"
-        placeholder="0 ako je samo razmjena"
-        required
-      >
+      <input type="number" step="0.01" min="0" class="form-control" id="price" name="price"
+        placeholder="0 ako je samo razmjena" required>
     </div>
 
     <!-- EXCHANGE -->
     <div class="form-group form-check mb-3">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="exchange_available"
-        name="exchange_available"
-      >
+      <input type="checkbox" class="form-check-input" id="exchange_available" name="exchange_available">
       <label class="form-check-label" for="exchange_available">
         Moguća razmjena
       </label>
     </div>
 
-    
+
     <!-- LOCATION -->
-   <!--    <div class="form-group mb-3">
+    <!--    <div class="form-group mb-3">
       <label for="city_id">Lokacija preuzimanja</label>
       <select class="form-control" id="city_id" name="city_id">
         <option value="">-- odaberi grad --</option>
@@ -388,13 +364,7 @@
     <!-- DESCRIPTION -->
     <div class="form-group mb-4">
       <label for="description">Opis</label>
-      <textarea
-        class="form-control"
-        id="description"
-        name="description"
-        rows="4"
-        placeholder="Opis knjige"
-      ></textarea>
+      <textarea class="form-control" id="description" name="description" rows="4" placeholder="Opis knjige"></textarea>
     </div>
 
     <!-- STATUS -->
@@ -425,10 +395,5 @@
 
 
 <script>
-  window.books = <%- JSON.stringify(books) %>;
+  window.books = <%- JSON.stringify(books || []) %>;
 </script>
-
-
-
-
-

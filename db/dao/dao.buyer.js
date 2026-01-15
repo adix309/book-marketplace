@@ -4,22 +4,30 @@ const pool = require('../db');
 module.exports = {
 
   async AllBooks() {
+  const result = await pool.query(`
+    SELECT
+      b.*,
+      l.name AS language_name,
+      g.name AS genre_name
+    FROM books b
+    LEFT JOIN languages l ON l.id = b.language_id
+    LEFT JOIN genres g ON g.id = b.genre_id
+  `);
 
-    const result = await pool.query('select * from books');
-
-    return result.rows;
-  },
+  return result.rows;
+}
+,
   async getName(id) {
     const result = await pool.query('select first_name from users where id=$1', [id]);
     console.log(result.rows[0]);
     return result.rows[0];
   },
 
-  async addToCart(buyer_id, book_id) {
+  async addToCart(buyer_id, book_id,seller_id) {
     const result = await pool.query(
-      ` INSERT INTO cart_items (buyer_id, book_id)
-    VALUES ($1, $2)
-    RETURNING *    `, [buyer_id, book_id]);
+      ` INSERT INTO cart_items (buyer_id, book_id, seller_id)
+    VALUES ($1, $2, $3)
+    RETURNING *    `, [buyer_id, book_id, seller_id]);
 
     return result.rows[0];
   },
@@ -61,7 +69,16 @@ module.exports = {
     );
 
     return result.rows;
-  }
+  },
+  async findSeller(book_id) {
+  const result = await pool.query(
+    'SELECT seller_id FROM books WHERE id = $1',
+    [book_id]
+  );
+
+  return result.rows[0].seller_id;
+}
+
 
 
 

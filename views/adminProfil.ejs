@@ -1,0 +1,300 @@
+<h1>Admin Profil</h1>
+<hr>
+
+<div class="card mb-4">
+    <div class="card-header fw-bold"> 🌍 Jezici </div>
+
+    <div class="card-body ">
+        <div class="d-flex flex-wrap gap-2 mb-3 card-body-languages">
+            <% alllanguages.forEach(l=> { %>
+                <span class="badge bg-info text-dark d-flex align-items-center gap-1 language-item"
+                    data-id="<%= l.id %>">
+                    <%= l.name %>
+                        <button class="btn btn-sm btn-close ms-1" onclick="deleteLanguage(<%= l.id %>, this)"></button>
+                </span>
+
+                <% }) %>
+        </div>
+
+        <div class="input-group input-group-sm">
+            <input type="text" id="newLanguage" class="form-control" placeholder="Novi jezik">
+            <button class="btn btn-primary" onclick="addLanguage()">Dodaj</button>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<div class="card mb-4">
+    <div class="card-header fw-bold">
+        📘 Žanrovi
+    </div>
+
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2 mb-3 card-body-genres">
+            <% allgenres.forEach(g=> { %>
+                <span class="badge bg-secondary d-flex align-items-center gap-1 genre-item" data-id="<%= g.id %>">
+                    <%= g.name %>
+                        <button class="btn btn-sm btn-close ms-1" onclick="deleteGenre(<%= g.id %>, this)"></button>
+                </span>
+
+                <% }) %>
+        </div>
+
+        <div class="input-group input-group-sm">
+            <input type="text" id="newGenre" class="form-control" placeholder="Novi žanr">
+            <button class="btn btn-primary" onclick="addGenre()">Dodaj</button>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<h2 class="mt-4 mb-3">👤 Kupci</h2>
+
+<div class="row g-3">
+    <% kupci.forEach(kupac=> { %>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <%= kupac.first_name %>
+                            <%= kupac.last_name %>
+                    </h5>
+
+                    <p class="card-text"><strong>Email:</strong>
+                        <%= kupac.email %>
+                    </p>
+                    <p class="card-text"><strong>Godine:</strong>
+                        <%= kupac.age %>
+                    </p>
+                    <p class="card-text"><strong>Grad:</strong>
+                        <%= kupac.city %>
+                    </p>
+                    <p class="card-text"><strong>Država:</strong>
+                        <%= kupac.country %>
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="badge bg-success">
+                            <%= kupac.status %>
+                        </span>
+                    </p>
+
+                    <p><strong>Jezici:</strong>
+                       ovo popuni 
+                    </p>
+
+                    <p><strong>Žanrovi:</strong>
+                        i ovo trebas popunit 
+                    </p>
+
+                </div>
+
+                <div class="card-footer d-flex gap-2">
+                    <form action="/admin/block/<%= kupac.id %>" method="POST" class="w-100">
+
+                        <button class="btn btn-success btn-sm w-100 mb-1" name="type" value="AKTIVAN">
+                            ✅ Aktiviraj
+                        </button>
+
+                        <button class="btn btn-warning btn-sm w-100 mb-1" name="type" value="BLOKIRAN_15_DANA">
+                            ⏳ Blokiraj 15 dana
+                        </button>
+
+                        <button class="btn btn-danger btn-sm w-100" name="type" value="BLOKIRAN_TRAJNO">
+                            ⛔ Trajno blokiraj
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+        <% }) %>
+</div>
+
+
+<h2 class="mt-5 mb-3">🏪 Prodavači</h2>
+
+<div class="row g-3">
+    <% prodavci.forEach(prodavac=> { %>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <%= prodavac.first_name %>
+                            <%= prodavac.last_name %>
+                    </h5>
+
+                    <p class="card-text"><strong>Email:</strong>
+                        <%= prodavac.email %>
+                    </p>
+                    <p class="card-text"><strong>Godine:</strong>
+                        <%= prodavac.age %>
+                    </p>
+                    <p class="card-text"><strong>Telefon:</strong>
+                        <%= prodavac.phone %>
+                    </p>
+                    <p class="card-text"><strong>Grad:</strong>
+                        <%= prodavac.city %>
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="badge bg-success">
+                            <%= prodavac.status %>
+                        </span>
+                    </p>
+
+                    <p><strong>Bio:</strong></p>
+                    <p class="card-text">
+                        <%= prodavac.bio %>
+                    </p>
+
+                </div>
+
+                <div class="card-footer d-flex gap-2">
+                    <form action="/admin/block/<%= prodavac.id %>" method="POST" class="w-100">
+
+                        <button class="btn btn-success btn-sm w-100 mb-1" name="type" value="AKTIVAN">
+                            ✅ Aktiviraj
+                        </button>
+
+                        <button class="btn btn-warning btn-sm w-100 mb-1" name="type" value="BLOKIRAN_15_DANA">
+                            ⏳ Blokiraj 15 dana
+                        </button>
+
+                        <button class="btn btn-danger btn-sm w-100" name="type" value="BLOKIRAN_TRAJNO">
+                            ⛔ Trajno blokiraj
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+        <% }) %>
+</div>
+
+
+<script>
+
+    function addGenre() {
+        const name = $("#newGenre").val().trim();
+        if (!name) {
+            alert("Unesite naziv žanra.");
+            return;
+        }
+
+        $.ajax({
+            url: "/admin/genres",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ name }),
+            success: function (data) {
+                console.log("Žanr dodat");
+                alert("Žanr dodat.");
+
+             
+
+                const newBadge =
+                    $(`  <span class="badge bg-secondary d-flex align-items-center gap-1 genre-item" data-id="${data.id}">
+          ${data.name}
+          <button class="btn btn-sm btn-close ms-1" onclick="deleteGenre(${data.id}, this)"></button>
+        </span>`);
+
+                $(".card-body-genres").append(newBadge);
+                $("#newGenre").val("");
+            },
+            error: function () {
+                alert("Ne mogu dodati žanr (možda već postoji).");
+            }
+        });
+
+    }
+
+
+        function addLanguage() {
+            const name = $("#newLanguage").val().trim();
+            if (!name) {
+                alert("Unesite naziv jezika.");
+                return;
+            }
+
+            $.ajax({
+                url: "/admin/languages",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ name }),
+                success: function (data) {
+                    console.log("Jezik dodat");
+                    alert("Jezik dodat.");
+
+                    
+
+                    const newBadge =
+                        $(`  <span class="badge bg-info text-dark d-flex align-items-center gap-1 language-item" data-id="${data.id}">
+          ${data.name}
+          <button class="btn btn-sm btn-close ms-1" onclick="deleteLanguage(${data.id}, this)"></button>
+        </span>`);
+
+                    $(".card-body-languages").append(newBadge);
+                    $("#newLanguage").val("");
+
+
+                },
+                error: function () {
+                    alert("Ne mogu dodati jezik (možda već postoji).");
+                }
+            });
+
+
+        }
+
+
+        function deleteLanguage(id, btn) {
+            if (!confirm("Obrisati jezik?")) return;
+
+            $.ajax({
+                url: `/admin/languages/${id}`,
+                type: "DELETE",
+                success: function () {
+                    console.log("Jezik obrisan");
+                    alert("Jezik obrisan.");
+                    // ukloni badge iz DOM-a
+                    $(btn).closest(".language-item").remove();
+                },
+                error: function () {
+                    alert("Ne mogu obrisati jezik (možda se koristi).");
+                }
+            });
+        }
+
+
+        function deleteGenre(id, btn) {
+            if (!confirm("Obrisati žanr?")) return;
+
+            $.ajax({
+                url: `/admin/genres/${id}`,
+                type: "DELETE",
+                success: function () {
+                    console.log("Žanr obrisan");
+                    alert("Žanr obrisan.");
+                    // ukloni badge iz DOM-a
+                    $(btn).closest(".genre-item").remove();
+                },
+                error: function () {
+                    alert("Ne mogu obrisati žanr (možda se koristi).");
+                }
+            });
+        }
+
+
+</script>

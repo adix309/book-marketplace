@@ -1,0 +1,46 @@
+<div class="container mt-4">
+    <h3>Stare narudžbe:</h3>
+
+    <div class="row g-3">
+        <% oldOrders.forEach(order=> { %>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <p><strong>Order ID:</strong>
+                            <%= order.id %>
+                        </p>
+                        <p><strong>Buyer ID:</strong>
+                            <%= order.buyer_id %>
+                        </p>
+                        <p><strong>Seller ID:</strong>
+                            <%= order.seller_id %>
+                        </p>
+                        <p><strong>Book ID:</strong>
+                            <%= order.book_id %>
+                        </p>
+
+                        <% let badgeClass='bg-secondary' ;
+                        
+                        if (order.status==='PRIHVACENA' ) badgeClass='bg-success' ;
+                            else if (order.status==='ODBIJENA' ) badgeClass='bg-danger' ; 
+                        
+                        %>
+
+                            <span class="badge <%= badgeClass %> px-3 py-2">
+                                <%= order.status %>
+                            </span>
+
+
+                            <p class="text-muted mt-2">
+                                <%= new Date(order.created_at).toLocaleString() %>
+                            </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <% }) %>
+    </div>
+</div>

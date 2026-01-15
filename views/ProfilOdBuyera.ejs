@@ -1,60 +1,62 @@
 <div class="container mt-5">
 
- 
-<h1>buyer id  <%= buyer_id %> </h1>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
-  
+  <h1>buyer id <%= buyer_id %>
+  </h1>
+
+
+  <button class="button">
+    <span class="button_text"><a href="/buyer/logout">Logout</a></span>
+  </button>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
+
     <form id="filterForm" class="d-flex align-items-center gap-2 mb-4">
 
-    <!-- ŽANR -->
-    <select id="filterGenre" class="form-select form-select-sm" style="width:160px">
-      <option value="">Žanr</option>
-      <option>Roman</option>
-      <option>Triler</option>
-      <option>Fantazija</option>
-      <option>Naučna fantastika</option>
-      <option>Biografija</option>
-      <option>Historija</option>
-      <option>Poezija</option>
-      <option>Drama</option>
-      <option>Psihologija</option>
-      <option>Dječija literatura</option>
-    </select>
+      <!-- ŽANR -->
+      <select id="filterGenre" class="form-select form-select-sm" style="width:160px">
+        <option value="">Žanr</option>
 
-    <!-- JEZIK -->
-    <select id="filterLanguage" class="form-select form-select-sm" style="width:140px">
-      <option value="">Jezik</option>
-      <option>Bosanski</option>
-      <option>Hrvatski</option>
-      <option>Srpski</option>
-      <option>Engleski</option>
-      <option>Njemački</option>
-      <option>Francuski</option>
-      <option>Španski</option>
-      <option>Italijanski</option>
-      <option>Turski</option>
-      <option>Arapski</option>
-    </select>
-
-    <!-- CIJENA -->
-    <input id="priceFrom" type="number" class="form-control form-control-sm" placeholder="Cijena od" style="width:110px">
-    <input id="priceTo" type="number" class="form-control form-control-sm" placeholder="Cijena do" style="width:110px">
-
-    <!-- TEXT SEARCH -->
-    <input id="searchText" type="text" class="form-control form-control-sm" placeholder="Naziv / autor">
-
-    <!-- BUTTON -->
-    <button type="submit" class="btn btn-sm btn-primary">
-      Filter
-    </button>
-    <button><a href="/buyer/cart">korpa</a></button>
-
-  </form>
+        <% allgenres.forEach(g=> { %>
+          <option value="<%= g.id %>">
+            <%= g.name %>
+          </option>
+          <% }) %>
+      </select>
 
 
-</div>
+      <!-- JEZIK -->
+      <select id="filterLanguage" class="form-select form-select-sm" style="width:140px">
+        <option value="">Jezik</option>
+
+        <% alllanguages.forEach(l=> { %>
+          <option value="<%= l.id %>">
+            <%= l.name %>
+          </option>
+          <% }) %>
+      </select>
+
+
+      <!-- CIJENA -->
+      <input id="priceFrom" type="number" class="form-control form-control-sm" placeholder="Cijena od"
+        style="width:110px">
+      <input id="priceTo" type="number" class="form-control form-control-sm" placeholder="Cijena do"
+        style="width:110px">
+
+      <!-- TEXT SEARCH -->
+      <input id="searchText" type="text" class="form-control form-control-sm" placeholder="Naziv / autor">
+
+      <!-- BUTTON -->
+      <button type="submit" class="btn btn-sm btn-primary">
+        Filter
+      </button>
+      <button><a href="/buyer/cart">korpa</a></button>
+
+    </form>
+
+
+  </div>
 
 
 
@@ -64,33 +66,40 @@
     <h4 class="mb-3">🔥 Najpopularnije knjige</h4>
 
     <div class="row g-4">
-      <% AllBooks.forEach(book => { %>
+      <% AllBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card"
-                id="book_<%= book.id %>"
-                class="card book-card"
-                onclick='openBookModal(<%- JSON.stringify(book) %>)'>
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+            onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
-                <div class="card-body">
-                    <h5 class="card-title"><%= book.title %></h5>
-                    <p class="text-muted mb-1"><%= book.author %></p>
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= book.title %>
+              </h5>
+              <p class="text-muted mb-1">
+                <%= book.author %>
+              </p>
 
-                    <p class="fw-bold text-success">
-                        <%= book.price == 0 ? 'Razmjena' : book.price + ' KM' %>
-                    </p>
-                    
+              <p class="fw-bold text-success">
+                <%= book.price==0 ? 'Razmjena' : book.price + ' KM' %>
+              </p>
 
-                    <p >
-                <span class="badge bg-info"><%= book.genre || 'Žanr' %></span>
-                <span class="badge bg-success"><%= book.status %></span>
-                <strong>Jezik:</strong> <%= book.language || '—' %>
+
+              <p>
+                <span class="badge bg-info">
+                  <%= book.genre_name || 'Žanr' %>
+                </span>
+                <span class="badge bg-success">
+                  <%= book.status %>
+                </span>
+                <strong>Jezik:</strong>
+                <%= book.language_name || '—' %>
 
               </p>
-                </div>
+            </div>
 
           </div>
         </div>
-      <% }) %>
+        <% }) %>
     </div>
   </section>
 
@@ -99,28 +108,35 @@
     <h4 class="mb-3">🎲 Slučajno odabrane knjige</h4>
 
     <div class="row g-4">
-      <% randomBooks.forEach(book => { %>
+      <% randomBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card"
-                 id="book_<%= book.id %>"
-                class="card book-card"
-                onclick='openBookModal(<%- JSON.stringify(book) %>)'>
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+            onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
             <div class="card-body">
-              <h5 class="card-title"><%= book.title %></h5>
-              <p class="text-muted mb-1"><%= book.author %></p>
+              <h5 class="card-title">
+                <%= book.title %>
+              </h5>
+              <p class="text-muted mb-1">
+                <%= book.author %>
+              </p>
 
-              <p >
-                <span class="badge bg-info"><%= book.genre || 'Žanr' %></span>
-                <span class="badge bg-success"><%= book.status %></span>
-                <strong>Jezik:</strong> <%= book.language || '—' %>
+              <p>
+                <span class="badge bg-info">
+                  <%= book.genre || 'Žanr' %>
+                </span>
+                <span class="badge bg-success">
+                  <%= book.status %>
+                </span>
+                <strong>Jezik:</strong>
+                <%= book.language || '—' %>
 
               </p>
             </div>
 
           </div>
         </div>
-      <% }) %>
+        <% }) %>
     </div>
   </section>
 
@@ -129,29 +145,36 @@
     <h4 class="mb-3">⭐ Preporučene za vas</h4>
 
     <div class="row g-4">
-      <% recommendedBooks.forEach(book => { %>
+      <% recommendedBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card"
-              id="book_<%= book.id %>"
-              class="card book-card"
-              onclick='openBookModal(<%- JSON.stringify(book) %>)'>
-              
-              
-            <div class="card-body">
-              <h5 class="card-title"><%= book.title %></h5>
-              <p class="text-muted mb-1"><%= book.author %></p>
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+            onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
-              <p >
-                <span class="badge bg-info"><%= book.genre || 'Žanr' %></span>
-                <span class="badge bg-success"><%= book.status %></span>
-                <strong>Jezik:</strong> <%= book.language || '—' %>
+
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= book.title %>
+              </h5>
+              <p class="text-muted mb-1">
+                <%= book.author %>
+              </p>
+
+              <p>
+                <span class="badge bg-info">
+                  <%= book.genre || 'Žanr' %>
+                </span>
+                <span class="badge bg-success">
+                  <%= book.status %>
+                </span>
+                <strong>Jezik:</strong>
+                <%= book.language || '—' %>
 
               </p>
             </div>
 
           </div>
         </div>
-      <% }) %>
+        <% }) %>
     </div>
   </section>
 
@@ -172,45 +195,45 @@
       </div>
 
       <!-- BODY -->
-        <div class="modal-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <p><strong>Cijena:</strong>
-                    <span id="modalPrice" class="fw-bold text-success"></span>
-                    </p>
-                    <p><strong>Status:</strong>
-                    <span id="modalStatus" ></span>
-                    </p>
-                    <p><strong>Žanr:</strong>
-                    <span id="modalGenre"></span>
-                    </p>
-                    <p><strong>Jezik:</strong>
-                    <span id="modalLanguage"></span>
-                    </p>
-                </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <p><strong>Cijena:</strong>
+              <span id="modalPrice" class="fw-bold text-success"></span>
+            </p>
+            <p><strong>Status:</strong>
+              <span id="modalStatus"></span>
+            </p>
+            <p><strong>Žanr:</strong>
+              <span id="modalGenre"></span>
+            </p>
+            <p><strong>Jezik:</strong>
+              <span id="modalLanguage"></span>
+            </p>
+          </div>
 
-                <div class="col-md-6">
-                    <p><strong>Godina izdanja:</strong>
-                    <span id="modalYear"></span>
-                    </p>
+          <div class="col-md-6">
+            <p><strong>Godina izdanja:</strong>
+              <span id="modalYear"></span>
+            </p>
 
-                    <p><strong>Stanje:</strong>
-                    <span id="modalCondition"></span> / 5
-                    </p>
+            <p><strong>Stanje:</strong>
+              <span id="modalCondition"></span> / 5
+            </p>
 
-                    <p><strong>Razmjena:</strong>
-                    <span id="modalExchange"></span>
-                    </p>
-                </div>
-
-            </div>
-
-            <hr>
-
-            <h6 class="fw-bold">Opis knjige</h6>
-            <p id="modalDescription" class="text-muted"></p>
+            <p><strong>Razmjena:</strong>
+              <span id="modalExchange"></span>
+            </p>
+          </div>
 
         </div>
+
+        <hr>
+
+        <h6 class="fw-bold">Opis knjige</h6>
+        <p id="modalDescription" class="text-muted"></p>
+
+      </div>
 
       <!-- FOOTER -->
       <div class="modal-footer d-flex justify-content-between">
@@ -218,7 +241,7 @@
           Zatvori
         </button>
 
-        <button id="buyButton"  class="btn btn-success">
+        <button id="buyButton" class="btn btn-success">
           Kupi knjigu</button>
       </div>
 
@@ -228,12 +251,7 @@
 
 
 <!--Bootstrap kood za obavijest da je kupljeno -->
-<div
-  id="buyAlert"
-  class="toast position-fixed bottom-0 end-0 m-3"
-  role="alert"
-  data-bs-delay="1500"
-> 
+<div id="buyAlert" class="toast position-fixed bottom-0 end-0 m-3" role="alert" data-bs-delay="1500">
   <div class="toast-body bg-success text-white">
     Kupljena knjiga
   </div>

@@ -1,0 +1,78 @@
+<h1>OPAAAAAAAAA</h1>
+
+<!-- ================= KORPA ================= -->
+<section class="mb-5">
+    <h4 class="mb-3">🔥 Knjige iz korpe:</h4>
+    <button>
+        <a href="/users/oldOrders"> Historija  narudzbi</a>
+    </button>
+    <div class="row g-4">
+        <% MyPartFromCart.forEach(book=> { %>
+            <div class="col-md-6 col-lg-4" id="book_<%= book.id %>">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            <%= book.title %>
+                            
+                        </h5>
+                        <p class="text-muted">
+                            <%= book.author %>
+                        </p>
+
+                        <p class="fw-bold text-success">
+                            <%= book.price %> KM
+                        </p>
+
+                        <p>
+                            <span class="badge bg-info">
+                                <%= book.genre || 'Žanr' %>
+                            </span>
+
+                            <br>
+                            <strong>Jezik:</strong>
+                            <%= book.language || '—' %>
+                        </p>
+
+                        <button class="btn btn-success" onclick="Order('PRIHVACENA', <%= book.id %>)">Prihvati</button>
+                        <button class="btn btn-outline-danger" onclick="Order('ODBIJENA',<%= book.id %>)">Odbi</button>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<script>
+    window.Order = function (stanje,id) {
+
+        console.log(id, "---------------- ", stanje);
+
+        $.ajax({
+            url: `/users/setOrder`,
+            method: "POST",
+            data: JSON.stringify({ stanje,id }),
+            contentType: "application/json",
+
+            success: () => {
+                alert("Prihvaceno");
+                $(`#book_${id}`).remove(); // Uklanja karticu sa stranice
+            },
+
+            error: (e) => {
+                console.error(e);
+                alert("Error deleting book!!!!!!!!!!!");
+            },
+        });
+
+    }
+
+
+</script>

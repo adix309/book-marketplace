@@ -1,4 +1,6 @@
-<h1 class="text-center mb-4"><%= title %></h1>
+<h1 class="text-center mb-4">
+  <%= title %>
+</h1>
 
 <div class="container mt-4 p-4 border rounded bg-light">
   <form id="registration_form">
@@ -47,13 +49,13 @@
     <!-- Telefon -->
     <div class="form-group mb-3">
       <label>Broj telefona</label>
-      <input type="tel" class="form-control" name="phone" placeholder="+389 885-3321">
+      <input type="tel" class="form-control" name="phone" placeholder="+387 222-333">
     </div>
 
     <!-- Država -->
     <div class="form-group mb-3">
       <label>Država</label>
-      <input type="text" class="form-control" name="country" placeholder="Bih">
+      <input type="text" class="form-control" name="country" placeholder="BiH">
     </div>
 
     <!-- Grad -->
@@ -64,135 +66,67 @@
 
     <!-- STATUS (hidden – backend kontrola) -->
     <input type="hidden" name="status" value="AKTIVAN">
-    
+
 
 
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="role" value="Kupac" >
+      <input class="form-check-input" type="radio" name="role" value="Kupac">
       <label class="form-check-label">Kupac</label>
     </div>
 
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="role" value="Prodavac" checked>
-    <label class="form-check-label">Prodavac</label>
-  </div>
-   
-
-
-<div id="kupac-fields" class="mt-4 border p-3 rounded bg-white" style="display:none">
-
-
-  <h5 class="mb-3">Preferencije kupca</h5>
-
-  <!-- ŽANROVI -->
-  <div class="form-group mb-4">
-    <label class="fw-bold mb-2 d-block">Žanrovi koje voliš</label>
-
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Roman">
-          <label class="form-check-label">Roman</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Triler">
-          <label class="form-check-label">Triler</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Fantazija">
-          <label class="form-check-label">Fantazija</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Naučna fantastika">
-          <label class="form-check-label">Naučna fantastika</label>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Biografija">
-          <label class="form-check-label">Biografija</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Historija">
-          <label class="form-check-label">Historija</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Poezija">
-          <label class="form-check-label">Poezija</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Drama">
-          <label class="form-check-label">Drama</label>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Psihologija">
-          <label class="form-check-label">Psihologija</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="genre[]" value="Dječija literatura">
-          <label class="form-check-label">Dječija literatura</label>
-        </div>
-      </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="role" value="Prodavac" checked>
+      <label class="form-check-label">Prodavac</label>
     </div>
-  </div>
 
-  <!-- JEZICI -->
-  <div class="form-group mb-3">
-    <label class="fw-bold mb-2 d-block">Jezici koje čitaš</label>
 
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Bosanski">
-          <label class="form-check-label">Bosanski</label>
+
+    <div id="kupac-fields" class="mt-4 border p-3 rounded bg-white" style="display:none">
+
+
+      <h5 class="mb-3">Preferencije kupca</h5>
+
+
+      <!-- ŽANROVI -->
+      <div class="form-group mb-4">
+        <label class="fw-bold mb-2 d-block">Žanrovi koje voliš</label>
+
+        <div class="row">
+          <% zanrovi.forEach(function(zanr) { %>
+            <div class="col-md-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="genre[]" value="<%= zanr.id %>">
+                <label class="form-check-label">
+                  <%= zanr.name %>
+                </label>
+              </div>
+            </div>
+            <% }) %>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Hrvatski">
-          <label class="form-check-label">Hrvatski</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Srpski">
-          <label class="form-check-label">Srpski</label>
+      </div>
+      
+      <!-- JEZICI -->
+      <div class="form-group mb-3">
+        <label class="fw-bold mb-2 d-block">Jezici koje čitaš</label>
+
+        <div class="row">
+          <% jezici.forEach(function(jezik) { %>
+            <div class="col-md-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="language[]" value="<%= jezik.id %>">
+                <label class="form-check-label">
+                  <%= jezik.name %>
+                </label>
+              </div>
+            </div>
+            <% }) %>
         </div>
       </div>
 
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Engleski">
-          <label class="form-check-label">Engleski</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Njemački">
-          <label class="form-check-label">Njemački</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Francuski">
-          <label class="form-check-label">Francuski</label>
-        </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Španski">
-          <label class="form-check-label">Španski</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Italijanski">
-          <label class="form-check-label">Italijanski</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="language[]" value="Turski">
-          <label class="form-check-label">Turski</label>
-        </div>
-      </div>
+
+
     </div>
-  </div>
-
-</div>
 
 
 
@@ -201,12 +135,7 @@
     <!-- Opis -->
     <div class="form-group mb-4">
       <label>About you</label>
-      <textarea 
-        class="form-control" 
-        name="bio" 
-        rows="4"
-        placeholder="Short description about yourself..."
-      ></textarea>
+      <textarea class="form-control" name="bio" rows="4" placeholder="Short description about yourself..."></textarea>
     </div>
 
     <button type="submit" class="btn btn-success w-100">Register</button>
@@ -218,4 +147,3 @@
 
   </form>
 </div>
-

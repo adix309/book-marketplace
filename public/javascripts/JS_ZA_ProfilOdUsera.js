@@ -53,6 +53,7 @@ window.brisi = function (id) {
   });
 };
 
+
   
   
 
@@ -76,7 +77,7 @@ $(function () {
 
   $("#book_form").on("submit", function (e) {
     e.preventDefault();
-    console.log("saddd-----------------")
+  
 
     const id = $("#book_id").val(); // ako si klikno addBook ovo ima vrjednost "",ako si update ima id 
     const title = $("#title").val().trim();

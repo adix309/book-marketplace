@@ -15,7 +15,9 @@ module.exports = {
 
     async addToCart(buyer_id, book_id) {
         console.log("iz service");
-        return await query.addToCart(buyer_id, book_id);
+        const seller_id = await query.findSeller(book_id);
+        console.log(seller_id,"--------------------",buyer_id);
+        return await query.addToCart(buyer_id, book_id,seller_id);
     },
 
     async BooksFromCart(buyer_id) {

@@ -19,4 +19,13 @@ router.delete('/cart/DeleteItem',buyercontroller.DeleteItem);
 //PATCH
 router.patch("/cart/OrderItem",buyercontroller.OrderItem);
 
+
+
+
+//LOGOUT
+router.get("/logout", buyercontroller.logout);
+
+
+
+
 module.exports = router;

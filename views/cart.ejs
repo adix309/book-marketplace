@@ -78,9 +78,7 @@
                 <% if (item.status==='NARUCENO' ) { %>
                     <% imaNarucene=true; %>
 
-                        <% const book=BooksFromCart.find( b=> b.id === item.book_id
-                            );
-                            %>
+                        <% const book=BooksFromCart.find( b=> b.id === item.book_id);    %>
 
                             <% if (book) { %>
                                 <div class="col-md-6 col-lg-4" id="book_<%= book.id %>">

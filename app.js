@@ -9,7 +9,7 @@ const expressLayouts = require("express-ejs-layouts");
 // ROUTES
 var userRouter = require('./routes/RoutesForUsers.js');
 var buyerRouter = require('./routes/RoutesForBuyer.js');
-
+var adminRouter = require('./routes/RoutesForAdmin.js');
 
 var app = express();
 
@@ -93,10 +93,11 @@ app.use((req,res,next) => {
    ROUTES
 ================================ */
 
-console.log("doslo----------------------------------------");
-app.use("/users", userRouter);
+
+app.use("/users",userRouter);
 app.use("/buyer",buyerRouter);
-console.log("nijeeeeeeeee----------------------------------------");
+app.use("/admin",adminRouter);
+
 /* ================================
    ERROR HANDLERS
 ================================ */

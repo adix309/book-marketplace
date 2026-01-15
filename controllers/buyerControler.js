@@ -1,5 +1,8 @@
 const buyerservice = require("../services/buyerservice.js");
 
+const userservice = require("../services/userservice.js");//ovo sam stavio radi alllanguages i allgenres
+
+
 module.exports = {
 
 
@@ -11,12 +14,17 @@ module.exports = {
         const randomBooks = await buyerservice.AllBooks();
         const recommendedBooks = await buyerservice.AllBooks();
 
+        const alllanguages = await userservice.getAllLanguages();
+        const allgenres = await userservice.getAllGenres();
+
+        console.log("sve jezike iz servicea ", alllanguages);
+        console.log("sve zanrove iz servicea ", allgenres);
 
         res.render('ProfilOdBuyera', {
             title: name.first_name,
             buyer_id: req.signedCookies.user.id,
             css: '/stylesheets/Profilbuyer.css',
-            AllBooks, randomBooks, recommendedBooks
+            AllBooks, randomBooks, recommendedBooks,alllanguages,allgenres
         });
 
     },
@@ -68,7 +76,7 @@ module.exports = {
         try {
             console.log("ooooo");
             const buyerId = req.user.id;
-            console.log("---------", buyerId);
+            console.log("--------a-", buyerId);
             const result = await buyerservice.OrderItem(buyerId);
             return res.sendStatus(204);
 
@@ -76,12 +84,13 @@ module.exports = {
             return res.status(500).json({ message: "Greska pri narucivanju" });
         }
 
+    },
 
+    logout(req, res) {
+    res.clearCookie("user");
+    res.redirect("/users/login");
+},
 
-
-
-
-    }
 
 
 
