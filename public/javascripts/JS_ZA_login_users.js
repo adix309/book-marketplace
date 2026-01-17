@@ -58,6 +58,7 @@ $(function () {
         const selectedGenres = formData.getAll("genre[]");     // [ "3", "5" ]
         const selectedLanguages = formData.getAll("language[]");  // [ "1", "2" ]
 
+        console.log(selectedGenres," ------------------- ",selectedLanguages);
 
         const REGData = {
             first_name: $("input[name='first_name']").val(),
@@ -87,6 +88,7 @@ $(function () {
                 window.location.href = "/users/usersLogin"
             },
             error: function (xhr) {
+                console.log("evo ga ovdje ");
                 alert("Registration failed: " + xhr.responseText);
             },
             complete: function () {

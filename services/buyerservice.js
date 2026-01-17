@@ -1,43 +1,39 @@
+//stari 
 const query = require("../db/dao/dao.buyer.js");
-
+// novi
+const ormQuery = require("../db/dao.orm/dao.buyer.orm.js");
 
 
 module.exports = {
 
     async AllBooks() {
-
-        return await query.AllBooks();
+        return await ormQuery.AllBooks();
     },
 
     async getName(id) {
-        return await query.getName(id);
+        return await ormQuery.getName(id);
     },
 
     async addToCart(buyer_id, book_id) {
-        console.log("iz service");
-        const seller_id = await query.findSeller(book_id);
-        console.log(seller_id,"--------------------",buyer_id);
-        return await query.addToCart(buyer_id, book_id,seller_id);
+        const seller_id = await ormQuery.findSeller(book_id);
+        return await ormQuery.addToCart(buyer_id, book_id, seller_id);
     },
 
     async BooksFromCart(buyer_id) {
 
-        return await query.BooksFromCart(buyer_id);
+        return await ormQuery.BooksFromCart(buyer_id);
     },
 
     async DeleteItemFromCart(buyerId, bookId) {
-
-
-        return await query.DeleteItemFromCart(buyerId, bookId);
+        return await ormQuery.DeleteItemFromCart(buyerId, bookId);
     },
     async OrderItem(buyerId) {
         console.log("iz service OrderItem");
-        return await query.OrderItem(buyerId);
+        return await ormQuery.OrderItem(buyerId);
 
     },
     async cartstatus() {
-        console.log("iz service cartstatus");
-        return await query.cartstatus();
+        return await ormQuery.cartstatus();
     }
 
 

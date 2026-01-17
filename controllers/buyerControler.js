@@ -17,8 +17,7 @@ module.exports = {
         const alllanguages = await userservice.getAllLanguages();
         const allgenres = await userservice.getAllGenres();
 
-        console.log("sve jezike iz servicea ", alllanguages);
-        console.log("sve zanrove iz servicea ", allgenres);
+   
 
         res.render('ProfilOdBuyera', {
             title: name.first_name,
@@ -30,8 +29,8 @@ module.exports = {
     },
     async addToCart(req, res) {
         try {
-            const buyerId = req.signedCookies.user.id; // ✅ COOKIE
-            const { bookId } = req.body;               // ✅ BODY
+            const buyerId = req.signedCookies.user.id; 
+            const { bookId } = req.body;               
             console.log("buyer:", buyerId);
             console.log("book:", bookId);
 
@@ -60,7 +59,7 @@ module.exports = {
     async DeleteItem(req, res) {
         try {
 
-            const buyerId = req.user.id;       // ili session
+            const buyerId = req.user.id;       
             const { bookId } = req.body;
 
             const DeleteItemFromCart = await buyerservice.DeleteItemFromCart(buyerId, bookId);
@@ -74,9 +73,7 @@ module.exports = {
 
     async OrderItem(req, res) {
         try {
-            console.log("ooooo");
             const buyerId = req.user.id;
-            console.log("--------a-", buyerId);
             const result = await buyerservice.OrderItem(buyerId);
             return res.sendStatus(204);
 

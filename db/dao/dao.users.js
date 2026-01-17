@@ -9,7 +9,7 @@ module.exports = {
     return res.rows;
   },
 
-  async GetByEmail(emaill, password) {
+  async GetByEmail(emaill) {
 
     //console.log(emaill);
     const res = await pool.query(

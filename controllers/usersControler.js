@@ -10,6 +10,7 @@ module.exports = {
 
   async profil(req, res) {
     try {
+      console.log("---------------------");
       const cookieUser = req.signedCookies.user;
       const user = await userservice.getUserById(cookieUser.id);
       const books = await userservice.getBooksByUser(cookieUser.id);
@@ -17,7 +18,7 @@ module.exports = {
       const allgenres = await userservice.getAllGenres();
 
       
-
+      console.log("---------------------");
 
       res.render('ProfilOdUsera', {
         title: 'Users page',
@@ -112,7 +113,9 @@ module.exports = {
       res.json({ message: "User registered successfully", user_id: user.id });
 
     } catch (err) {
-      console.error(err);
+      console.error("greska",err);
+      return res.status(400).send(err.message);
+  
     }
 
   },
@@ -141,6 +144,8 @@ module.exports = {
         language,
         condition,
         exchange_available, publisher); 
+      
+        console.log("ovo je iz kontrolera ono sto se vrati ",newBook);
 
       res.status(201).json({
         message: "Book added successfully",
@@ -201,7 +206,6 @@ module.exports = {
   },
 
   async setOrder(req, res) {
-    console.log("-------");
     const seller_id = req.signedCookies.user.id;
     const book_id = req.body.id;
     const stanje = req.body.stanje

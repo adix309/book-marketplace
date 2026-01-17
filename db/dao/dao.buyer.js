@@ -18,12 +18,14 @@ module.exports = {
 }
 ,
   async getName(id) {
-    const result = await pool.query('select first_name from users where id=$1', [id]);
+    const result = await pool.query(
+      'select first_name from users where id=$1', [id]);
     console.log(result.rows[0]);
     return result.rows[0];
   },
 
   async addToCart(buyer_id, book_id,seller_id) {
+    console.log("dodajem bez ORM ")
     const result = await pool.query(
       ` INSERT INTO cart_items (buyer_id, book_id, seller_id)
     VALUES ($1, $2, $3)

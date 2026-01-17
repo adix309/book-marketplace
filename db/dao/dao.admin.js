@@ -23,6 +23,7 @@ module.exports = {
     async getAllLanguages() {
         const result = await pool.query(
             `SELECT * FROM languages `);
+        console.log("-----bez orm ----",result.rows);
         return result.rows;
     },
     async getAllGenres() {
