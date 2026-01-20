@@ -2,10 +2,16 @@
 <hr>
 
 <button class="button">
-  
+
     <span class=""><a href="/admin/logout">Logout</a></span>
- 
+
 </button>
+<hr>
+<div style="margin: 15px 0;">
+    <input id="adminAlertInput" class="form-control" placeholder="Napiši alert..." />
+    <button id="adminAlertBtn" class="btn btn-danger mt-2" onclick="AdminAlert()">Pošalji live alert</button>
+</div>
+
 
 
 <div class="card mb-4">
@@ -92,11 +98,11 @@
                     </p>
 
                     <p><strong>Jezici:</strong>
-                       ovo popuni 
+                        ovo popuni
                     </p>
 
                     <p><strong>Žanrovi:</strong>
-                        i ovo trebas popunit 
+                        i ovo trebas popunit
                     </p>
 
                 </div>
@@ -193,6 +199,17 @@
 
 <script>
 
+    function AdminAlert() {       
+            const message = $("#adminAlertInput").val().trim();
+            if (!message) return;
+            socket.emit("admin_alert", {
+                message: message            });
+
+            $("#adminAlertInput").val("");
+    }
+
+
+
     function addGenre() {
         const name = $("#newGenre").val().trim();
         if (!name) {
@@ -209,7 +226,7 @@
                 console.log("Žanr dodat");
                 alert("Žanr dodat.");
 
-             
+
 
                 const newBadge =
                     $(`  <span class="badge bg-secondary d-flex align-items-center gap-1 genre-item" data-id="${data.id}">
@@ -228,80 +245,80 @@
     }
 
 
-        function addLanguage() {
-            const name = $("#newLanguage").val().trim();
-            if (!name) {
-                alert("Unesite naziv jezika.");
-                return;
-            }
+    function addLanguage() {
+        const name = $("#newLanguage").val().trim();
+        if (!name) {
+            alert("Unesite naziv jezika.");
+            return;
+        }
 
-            $.ajax({
-                url: "/admin/languages",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ name }),
-                success: function (data) {
-                    console.log("Jezik dodat");
-                    alert("Jezik dodat.");
+        $.ajax({
+            url: "/admin/languages",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ name }),
+            success: function (data) {
+                console.log("Jezik dodat");
+                alert("Jezik dodat.");
 
-                    
 
-                    const newBadge =
-                        $(`  <span class="badge bg-info text-dark d-flex align-items-center gap-1 language-item" data-id="${data.id}">
+
+                const newBadge =
+                    $(`  <span class="badge bg-info text-dark d-flex align-items-center gap-1 language-item" data-id="${data.id}">
           ${data.name}
           <button class="btn btn-sm btn-close ms-1" onclick="deleteLanguage(${data.id}, this)"></button>
         </span>`);
 
-                    $(".card-body-languages").append(newBadge);
-                    $("#newLanguage").val("");
+                $(".card-body-languages").append(newBadge);
+                $("#newLanguage").val("");
 
 
-                },
-                error: function () {
-                    alert("Ne mogu dodati jezik (možda već postoji).");
-                }
-            });
+            },
+            error: function () {
+                alert("Ne mogu dodati jezik (možda već postoji).");
+            }
+        });
 
 
-        }
+    }
 
 
-        function deleteLanguage(id, btn) {
-            if (!confirm("Obrisati jezik?")) return;
+    function deleteLanguage(id, btn) {
+        if (!confirm("Obrisati jezik?")) return;
 
-            $.ajax({
-                url: `/admin/languages/${id}`,
-                type: "DELETE",
-                success: function () {
-                    console.log("Jezik obrisan");
-                    alert("Jezik obrisan.");
-                    // ukloni badge iz DOM-a
-                    $(btn).closest(".language-item").remove();
-                },
-                error: function () {
-                    alert("Ne mogu obrisati jezik (možda se koristi).");
-                }
-            });
-        }
+        $.ajax({
+            url: `/admin/languages/${id}`,
+            type: "DELETE",
+            success: function () {
+                console.log("Jezik obrisan");
+                alert("Jezik obrisan.");
+                // ukloni badge iz DOM-a
+                $(btn).closest(".language-item").remove();
+            },
+            error: function () {
+                alert("Ne mogu obrisati jezik (možda se koristi).");
+            }
+        });
+    }
 
 
-        function deleteGenre(id, btn) {
-            if (!confirm("Obrisati žanr?")) return;
+    function deleteGenre(id, btn) {
+        if (!confirm("Obrisati žanr?")) return;
 
-            $.ajax({
-                url: `/admin/genres/${id}`,
-                type: "DELETE",
-                success: function () {
-                    console.log("Žanr obrisan");
-                    alert("Žanr obrisan.");
-                    // ukloni badge iz DOM-a
-                    $(btn).closest(".genre-item").remove();
-                },
-                error: function () {
-                    alert("Ne mogu obrisati žanr (možda se koristi).");
-                }
-            });
-        }
+        $.ajax({
+            url: `/admin/genres/${id}`,
+            type: "DELETE",
+            success: function () {
+                console.log("Žanr obrisan");
+                alert("Žanr obrisan.");
+                // ukloni badge iz DOM-a
+                $(btn).closest(".genre-item").remove();
+            },
+            error: function () {
+                alert("Ne mogu obrisati žanr (možda se koristi).");
+            }
+        });
+    }
 
 
 </script>

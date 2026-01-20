@@ -21,6 +21,10 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+
+
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -77,9 +81,56 @@ function onError(error) {
   }
 }
 
+
+//web soketi ----odave  je moj kod
+const { Server } = require("socket.io");
+
+const io = new Server(server);
+
+app.set("io", io);
+//app.io=io; moglo je i ovako 
+io.on("connection", (socket) => {
+  console.log("WS  Novi korisnik:", socket.id);
+
+    // 1) server sluša kad admin pošalje alert
+  socket.on("admin_alert", ({ message }) => {
+    if (!message) return;
+
+    // 2) server broadcastuje SVIMA
+   // io.emit("receive_admin_alert", {message});
+    socket.broadcast.emit("receive_admin_alert", {message});
+  });
+
+
+  socket.on("disconnect", () => {
+    console.log("WS  Korisnik otisao:", socket.id);
+  });
+
+
+});
+
+
+
+
+
+//dove 
+
+
 /**
  * Event listener for HTTP server "listening" event.
- */
+ * 
+ * 
+ * 
+ * const konj = new Konj()
+app.use((req, res, next) => {
+    req.io = konj;  
+    next();
+});
+
+zar to nije isto kao ovo req je objekat i sad sam u tom objetu 
+uzo vjrendost io koji je key i stavio mu value konj
+ 
+*/
 
 function onListening() {
   var addr = server.address();

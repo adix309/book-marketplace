@@ -41,8 +41,9 @@ app.use('/jquery',
 
 
 /*=================================
-   DATABASE  ovdje dodaj onaj onm 
+   web soketi  
   ================================= */
+
 
 
 
