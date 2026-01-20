@@ -97,19 +97,38 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+
       const socket = io();
 
 
     </script>
 
     <script>
-      $(document).ready(function () {
 
-        socket.on("receive_admin_alert", function (data) {
-          alert("Poruka od Admina: " + data.message);
-        });
 
+    </script>
+
+
+
+    <script>
+      const USER_ID = <%- JSON.stringify(user ? user.id : null) %>
+      console.log("USER_ID iz layouta:", USER_ID);
+      if (USER_ID) {
+          socket.emit("register_user", USER_ID);
+          console.log("User registered on socket:", USER_ID);
+        }
+
+
+
+      socket.on("receive_admin_alert", function (data) {
+        alert("Poruka od Admina: " + data.message);
       });
+
+      socket.on("receive_notification", (data) => {
+        alert("poruka od korisnika",data.message);
+      });
+
+
     </script>
 
 

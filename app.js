@@ -44,7 +44,10 @@ app.use('/jquery',
    web soketi  
   ================================= */
 
-
+app.use((req, res, next) => {
+  res.locals.user = null;
+  next();
+});
 
 
 /* ================================
@@ -84,9 +87,18 @@ app.use((req,res,next) => {
    // Ako postoji cookie → user je logovan
   req.user = user;
 
+  res.locals.user = user;//dodaj na taj objekat i user ,treba nam za sokete jer se vidi u svakom renderu
+
+
+
+
   console.log("✔ AUTHORIZED USER:", user.email);
   next();
 });
+
+
+
+
 
 
 /* ================================

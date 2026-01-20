@@ -89,21 +89,45 @@ const io = new Server(server);
 
 app.set("io", io);
 //app.io=io; moglo je i ovako 
+
+
+// userId -> socketId
+const onlineUsers = new Map();
+
+
 io.on("connection", (socket) => {
   console.log("WS  Novi korisnik:", socket.id);
+  
+  socket.on("register_user", (userId) => {
+    if (!userId) return;
+    onlineUsers.set(userId, socket.id);
+    console.log("👤 USER ONLINE, IDod usera:", userId);
+  });
+
 
     // 1) server sluša kad admin pošalje alert
   socket.on("admin_alert", ({ message }) => {
     if (!message) return;
-
-    // 2) server broadcastuje SVIMA
-   // io.emit("receive_admin_alert", {message});
-    socket.broadcast.emit("receive_admin_alert", {message});
+    socket.broadcast.emit("receive_admin_alert", {message});//svima osim tebi 
   });
 
+//socket.emit("notify_user", ({ toUserId:15, message:"poruka od korisnika" }) )
+   socket.on("notify_user", ({ toUserId, message }) => {
+    const targetSocketId = onlineUsers.get(toUserId);
+    if (targetSocketId) {
+      io.to(targetSocketId).emit("receive_notification", {message});
+    }
+  });
+  
 
   socket.on("disconnect", () => {
-    console.log("WS  Korisnik otisao:", socket.id);
+    for (const [userId, socketId] of onlineUsers.entries()) {
+      if (socketId === socket.id) {
+        onlineUsers.delete(userId);
+        console.log("👤 USER OFFLINE,id od usera:", userId);
+        break;
+      }
+    }
   });
 
 
