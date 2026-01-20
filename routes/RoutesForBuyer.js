@@ -3,25 +3,19 @@ var router = express.Router();
 
 
 const buyercontroller = require("../controllers/buyerControler.js");
+const { requireRole } = require('../auth/requireRole');
 
+router.use(requireRole('Kupac'));
 
 
 router.get('/',buyercontroller.profil);
 router.get('/cart',buyercontroller.cart);
-
 //post ruta
 router.post('/addToCart',buyercontroller.addToCart);
-
-
 //delete ruta
 router.delete('/cart/DeleteItem',buyercontroller.DeleteItem);
-
 //PATCH
 router.patch("/cart/OrderItem",buyercontroller.OrderItem);
-
-
-
-
 //LOGOUT
 router.get("/logout", buyercontroller.logout);
 

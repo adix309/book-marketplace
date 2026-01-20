@@ -49,15 +49,14 @@ app.use('/jquery',
 /* ================================
    AUTH MIDDLEWARE  cokiee
 ================================ */
-
-app.use((req,res,next) => {
-   const publicPaths = [
+const publicPaths = [
       "/users/usersLogin",
       "/users/usersRegister",
       "/users/RegisterUser",
       "/users/LoginUser"];
-   
-      
+
+app.use((req,res,next) => {
+         
       //[1, 3, 5].some(n => n % 2 === 0)   -> false 
    if (publicPaths.some((p) => req.path.startsWith(p))) {
     return next();
@@ -92,7 +91,6 @@ app.use((req,res,next) => {
 /* ================================
    ROUTES
 ================================ */
-
 
 app.use("/users",userRouter);
 app.use("/buyer",buyerRouter);

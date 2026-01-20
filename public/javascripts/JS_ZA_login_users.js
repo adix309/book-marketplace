@@ -16,11 +16,13 @@ $(function () {
                 console.log(response.user);
                 alert("login successful!");
                 if (response.user.role === "Kupac") {
-                    window.location.href = "/buyer"
+                    window.location.href = "/buyer";
                 }
                 else if (response.user.role === "Prodavac") {
                     window.location.href = "/users/profil/";
-                } else { window.location.href = ""; }
+                } else if (response.user.role === "ADMIN") {
+                    window.location.href = "/admin";
+                }
             },
             error: function (xhr) {
                 alert("Login failed: " + xhr.responseText);

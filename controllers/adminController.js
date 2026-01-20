@@ -77,6 +77,10 @@ module.exports = {
             return res.status(500).json({ message: "Error adding genre" });
         }
     },
+    logout(req, res) {
+    res.clearCookie("user");
+    res.redirect("/users/login");
+},
 
 
     
