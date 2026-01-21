@@ -19,6 +19,8 @@ router.patch("/cart/OrderItem",buyercontroller.OrderItem);
 //LOGOUT
 router.get("/logout", buyercontroller.logout);
 
+//OCJENA
+router.patch("/review",buyercontroller.review);
 
 
 

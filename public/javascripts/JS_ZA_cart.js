@@ -44,3 +44,21 @@ function naruci(){
 
 
 }
+
+
+function submitReview(e, form) {
+  e.preventDefault(); 
+     
+  $.ajax({
+    url: "/buyer/review",   
+    method: "PATCH",
+    data:$(form).serialize(),//parsira formu da bi bila citljivija  
+    success: function () {
+      alert("ocjenio si uspjesno ");
+     $(form).find("input, select, button").prop("disabled", true);
+    },
+    error: function () {
+      alert("Greška pri slanju ocjene");
+    }
+  });
+}

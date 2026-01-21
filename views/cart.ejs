@@ -125,4 +125,80 @@
         <% } %>
 </section>
 
-<p> <STRONG> URADI JOS I OSTVARNEE NARUDJBE KOJE SU KUPLJENJE ILI OTKAZANE </STRING></p>
+
+    <h5><STRONG> Završene narudžbe </STRING></h5>
+
+<% if (MyOrderBooks.length === 0) { %>
+  <p>Nema završenih narudžbi.</p>
+<% } else { %>
+  <ul>
+    <% MyOrderBooks.forEach(order => { %>
+      <li class="mb-4 p-2 border rounded">
+
+  
+  <div class="mb-2">
+    <strong>Knjiga ID:</strong> <%= order.book_id %> |
+    <strong>Status:</strong> <%= order.status %> |
+    <strong>Prodavac:</strong> <%= order.seller_id %>
+  </div>
+
+  <% if (order.status === 'PRIHVACENA') { %>
+
+<% const disabled = order.book_rating != 0 && order.comment !== ''; %>
+
+
+  <form action="" method="POST" onsubmit="submitReview(event, this)">
+
+    <input type="hidden" name="order_id" value="<%= order.id %>">
+    <input type="hidden" name="book_id" value="<%= order.book_id %>">
+    <input type="hidden" name="seller_id" value="<%= order.seller_id %>">
+
+    <!-- OCJENA PRODAVCA -->
+    <div class="mb-2">
+      <strong>⭐ Ocijeni prodavca</strong><br>
+      <select name="seller_rating" class="form-select form-select-sm w-auto"    <%= disabled ? 'disabled' : '' %>  >
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+      </select>
+    </div>
+
+    <!-- OCJENA KNJIGE -->
+    <div class="mb-2">
+      <strong>📘 Ocijeni knjigu</strong><br>
+      <select name="book_rating" class="form-select form-select-sm w-auto"   <%= disabled ? 'disabled' : '' %>>
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+      </select>
+    </div>
+
+    <!-- KOMENTAR -->
+    <div class="mb-2">
+      <strong>💬 Komentar na knjigu</strong>
+      <input
+        type="text"
+        name="comment"
+        class="form-control form-control-sm"
+        placeholder="Napiši kratki komentar..."
+        <%= disabled ? 'disabled' : '' %>
+      >
+    </div>
+
+    <button class="btn btn-sm btn-primary"  <%= disabled ? 'disabled' : '' %>>Pošalji ocjenu</button>
+  </form>
+
+  <% } else { %>
+    <small class="text-muted">Ocjenjivanje dostupno samo za prihvaćene narudžbe.</small>
+  <% } %>
+
+</li>
+
+      <hr>
+    <% }) %>
+  </ul>
+<% } %>

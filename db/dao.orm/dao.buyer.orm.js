@@ -1,6 +1,7 @@
 const Book = require('../models/Book.js');
 const User = require('../models/User.js');
 const Cart_item = require('../models/Cart_item.js')
+const Order =     require('../models/Orders.js');
 
 
 module.exports = {
@@ -73,9 +74,34 @@ module.exports = {
     async findSeller(book_id) {
         const result = await Book.query().select('seller_id').where('id', book_id).first();
         return result.seller_id;
+    },
+    async MyOrderBooks(buyer_id){
+
+        const result = await Order.query().where('buyer_id',buyer_id); 
+        return result;
+    },
+    async BookCommentRating(order_id,book_rating,comment){
+        const result = await Order.query().patch({ book_rating: book_rating, comment: comment })
+        .where('id', order_id);
+        return result;
+
+    },
+    async rateSeller(seller_id,seller_rating){
+        seller_rating = Number(seller_rating); 
+        
+        const seller = await User.query().select('user_rating','number_of_ratings').where('id',seller_id).first();
+        const currentAverage = seller.user_rating || 0;
+        const currentCount = seller.number_of_ratings || 0;
+        // novu prosjecnu ocjenu
+        const newCount = currentCount + 1;
+        console.log(seller_rating,"stara prosjecna ----novi broj ocjena --------------",newCount);
+        const newAverage = ((currentAverage * currentCount) + seller_rating) / newCount;
+        console.log("nova prosjecna ocjena -------------",newAverage);
+        //azurirati sellerja
+        await User.query().patch({ user_rating: newAverage, number_of_ratings: newCount })
+            .where('id', seller_id);
+     
+            return newAverage;
     }
-
-
-
 
 }

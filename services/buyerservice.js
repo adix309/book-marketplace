@@ -34,6 +34,15 @@ module.exports = {
     },
     async cartstatus() {
         return await ormQuery.cartstatus();
+    },async MyOrderBooks(buyer_id){
+        return await ormQuery.MyOrderBooks(buyer_id);
+
+    },
+    async BookCommentRating(order_id,book_rating,comment){
+        return await ormQuery.BookCommentRating(order_id,book_rating,comment);
+    },
+    async rateSeller(seller_id,seller_rating){
+        return await ormQuery.rateSeller(seller_id,seller_rating);
     }
 
 

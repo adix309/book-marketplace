@@ -50,10 +50,15 @@ module.exports = {
         try {
             const buyer_id = req.signedCookies.user.id;
             const BooksFromCart = await buyerservice.BooksFromCart(buyer_id);
-            console.log("zavrsilo");
             const cartstatus = await buyerservice.cartstatus();
 
-            res.render('cart', { BooksFromCart, cartstatus });
+            const MyOrderBooks = await buyerservice.MyOrderBooks(buyer_id);
+
+            console.log(" sve sto sam ja narucio ",MyOrderBooks);
+
+            
+
+            res.render('cart', { BooksFromCart, cartstatus,MyOrderBooks });
         } catch (err) {
             console.log("ne moze", err);
 
@@ -84,6 +89,20 @@ module.exports = {
         } catch (err) {
             return res.status(500).json({ message: "Greska pri narucivanju" });
         }
+
+    },
+    async review(req,res){
+        try{
+            console.log("doso evo ti req.body",req.body,"---",req.body.book_rating,"---",req.body.comment);
+            const result = await buyerservice.BookCommentRating(req.body.order_id,req.body.book_rating,req.body.comment);
+            
+            const result1= await buyerservice.rateSeller(req.body.seller_id,req.body.seller_rating);
+      
+            return res.sendStatus(200);
+
+
+        }catch(err){ return res.status(500).json({ message: "Greska pri ocjenjivanju" });}
+
 
     },
 
