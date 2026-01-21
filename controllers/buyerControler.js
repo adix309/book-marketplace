@@ -17,13 +17,17 @@ module.exports = {
         const alllanguages = await userservice.getAllLanguages();
         const allgenres = await userservice.getAllGenres();
 
-   
+
+        const onlineUsers = req.app.get("onlineUsers");
+        const online = Array.from(onlineUsers.keys());
+
+        console.log("ovo su ti online: ",online);
 
         res.render('ProfilOdBuyera', {
             title: name.first_name,
             buyer_id: req.signedCookies.user.id,
             css: '/stylesheets/Profilbuyer.css',
-            AllBooks, randomBooks, recommendedBooks,alllanguages,allgenres
+            AllBooks, randomBooks, recommendedBooks,alllanguages,allgenres,online
         });
 
     },

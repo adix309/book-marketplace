@@ -10,6 +10,18 @@
     <span class="button_text"><a href="/buyer/logout">Logout</a></span>
   </button>
 
+  <h4>Online korisnici</h4>
+<ul>
+  <% online.forEach(id => { %>
+    <li>
+      <a href="/chat/<%= id %>">
+        Chat sa korisnikom #<%= id %>
+      </a>
+    </li>
+  <% }) %>
+</ul>
+
+
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
 

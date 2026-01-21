@@ -84,7 +84,6 @@ function onError(error) {
 
 //web soketi ----odave  je moj kod
 const { Server } = require("socket.io");
-
 const io = new Server(server);
 
 app.set("io", io);
@@ -93,7 +92,7 @@ app.set("io", io);
 
 // userId -> socketId
 const onlineUsers = new Map();
-
+app.set("onlineUsers", onlineUsers);//treba u kontrolerima
 
 io.on("connection", (socket) => {
   console.log("WS  Novi korisnik:", socket.id);
@@ -103,6 +102,8 @@ io.on("connection", (socket) => {
     onlineUsers.set(userId, socket.id);
     console.log("👤 USER ONLINE, IDod usera:", userId);
   });
+  /*ovo je mozda bolje bilo rjesit na nacin da sam piso socket.userId = userId; onlineUsers.set(userId, socket.id); i onda da brisem sa   if (socket.userId) {
+    onlineUsers.delete(socket.userId);  } */
 
 
     // 1) server sluša kad admin pošalje alert
@@ -111,7 +112,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("receive_admin_alert", {message});//svima osim tebi 
   });
 
-//socket.emit("notify_user", ({ toUserId:15, message:"poruka od korisnika" }) )
+//socket.emit("notify_user", ({ toUserId:17, message:"poruka od korisnika" }) )
    socket.on("notify_user", ({ toUserId, message }) => {
     const targetSocketId = onlineUsers.get(toUserId);
     if (targetSocketId) {
@@ -137,7 +138,7 @@ io.on("connection", (socket) => {
 
 
 
-//dove 
+//------------------------------------ 
 
 
 /**

@@ -11,6 +11,8 @@ var userRouter = require('./routes/RoutesForUsers.js');
 var buyerRouter = require('./routes/RoutesForBuyer.js');
 var adminRouter = require('./routes/RoutesForAdmin.js');
 
+var chatRouter = require('./routes/RoutesForChat.js');
+
 var app = express();
 
 /* ================================
@@ -108,6 +110,8 @@ app.use((req,res,next) => {
 app.use("/users",userRouter);
 app.use("/buyer",buyerRouter);
 app.use("/admin",adminRouter);
+
+app.use("/chat",chatRouter);
 
 /* ================================
    ERROR HANDLERS

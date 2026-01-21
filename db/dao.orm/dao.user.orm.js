@@ -192,7 +192,7 @@ AND EXISTS (
   },
 
   async getAllLanguages() {
-    console.log(" sa orm ispisujem Language ");
+    
     const result1 = await Language.query();
     return result1;
   },

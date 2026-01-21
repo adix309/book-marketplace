@@ -6,7 +6,7 @@ const Cart_item = require('../models/Cart_item.js')
 module.exports = {
 
     async AllBooks() {
-        console.log("uso u orm za allBooks ");
+        
         const result = await Book.query()
             .leftJoin('languages', 'languages.id', 'books.language_id')
             .leftJoin('genres', 'genres.id', 'books.genre_id')
@@ -35,7 +35,7 @@ module.exports = {
     },
 
     async BooksFromCart(buyer_id) {
-        console.log("cart item sa ORM ");
+       
         const result = await Cart_item.query().
             join('books', 'books.id', 'cart_items.book_id').
             where('cart_items.buyer_id', buyer_id).

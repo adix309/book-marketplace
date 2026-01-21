@@ -12,6 +12,18 @@
   </span>
 </button>
 
+  <h4>Online korisnici</h4>
+<ul>
+  <% online.forEach(id => { %>
+    <li>
+      <a href="/chat/<%= id %>">
+        Chat sa korisnikom #<%= id %>
+      </a>
+    </li>
+  <% }) %>
+</ul>
+
+
 <section class="section about-section gray-bg" id="about">
   <div class="container">
 

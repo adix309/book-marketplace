@@ -17,13 +17,16 @@ module.exports = {
       const alllanguages = await userservice.getAllLanguages();
       const allgenres = await userservice.getAllGenres();
 
-      
+      const onlineUsers = req.app.get("onlineUsers");
+      const online = Array.from(onlineUsers.keys());
+
+        console.log("ovo su ti online: ",online);
       console.log("---------------------");
 
       res.render('ProfilOdUsera', {
         title: 'Users page',
         css: '/stylesheets/Profiluser.css',
-        user, books,alllanguages,allgenres
+        user, books,alllanguages,allgenres,online
       });
     } catch (err) {
       console.error(err);

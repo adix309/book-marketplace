@@ -1,0 +1,56 @@
+<h3>Chat sa korisnikom #<%= targetUserId %>
+</h3>
+
+<ul id="chatMessages" class="list-unstyled"></ul>
+
+<input id="chatInput" placeholder="Poruka..." />
+<button onclick="sendMessage()">Pošalji</button>
+
+<script>
+
+  console.log("ovo ej taj soket ", socket);
+
+  const TARGET_USER_ID = <%= targetUserId %>;
+
+
+  function addMessage(text, from = "them") {
+    const ul = document.getElementById("chatMessages");
+    const li = document.createElement("li");
+
+    li.textContent = text;
+    li.classList.add("rounded", "px-2", "py-1", "mb-1"); li.style.maxWidth = "40%";
+
+    if (from === "me") {
+      li.classList.add("bg-primary-subtle", "text-dark", "me-auto");
+    } else {
+      li.classList.add("bg-secondary-subtle", "text-dark", "ms-auto");
+    }
+
+
+    ul.appendChild(li);
+  }
+
+
+  function sendMessage() {
+    const text = $("#chatInput").val().trim();
+    if (!text) return;
+
+    addMessage(text, "me");
+    socket.emit("notify_user", {
+      toUserId: TARGET_USER_ID,
+      message: text
+    });
+    $("#chatInput").val("");
+
+
+
+  }
+
+  socket.on("receive_notification", function (data) {
+    addMessage(data.message, "them");
+
+
+  });
+
+
+</script>

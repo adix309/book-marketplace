@@ -61,6 +61,9 @@
 
 <body>
   <!-- <h1 style="color: red;">LAYOUT TEST</h1> -->
+ <script src="/socket.io/socket.io.js"></script>
+    <script>    window.socket = io();    </script>
+
 
   <%- body %>
 
@@ -95,18 +98,8 @@
 
     -->
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
+   
 
-      const socket = io();
-
-
-    </script>
-
-    <script>
-
-
-    </script>
 
 
 
@@ -121,13 +114,10 @@
 
 
       socket.on("receive_admin_alert", function (data) {
-        alert("Poruka od Admina: " + data.message);
-      });
+        alert("Poruka od Admina: " + data.message);      });
 
-      socket.on("receive_notification", (data) => {
-        alert("poruka od korisnika",data.message);
-      });
-
+      
+     
 
     </script>
 
