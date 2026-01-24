@@ -37,8 +37,8 @@
           <h3 class="dark-color">About Me</h3>
 
           <h6 class="theme-color lead">
-            <%= user.first_name %>
-              <%= user.last_name %>
+            Ime i Prezime:  <%= user.first_name %>
+            <%= user.last_name %>
           </h6>
 
           <p>
@@ -128,28 +128,28 @@
 
         <div class="col-6 col-lg-3">
           <div class="count-data text-center">
-            <h6 class="count h2">500</h6>
+            <h6 class="count h2">  <%= user.brojKnjigaAktivnih || '-' %> </h6>
             <p class="m-0px font-w-600">Aktivni oglasi</p>
           </div>
         </div>
 
         <div class="col-6 col-lg-3">
           <div class="count-data text-center">
-            <h6 class="count h2">150</h6>
+            <h6 class="count h2"> <%= user.brojKnjigaProdanih || '-' %>  </h6>
             <p class="m-0px font-w-600">Završeni oglasi</p>
           </div>
         </div>
 
         <div class="col-6 col-lg-3">
           <div class="count-data text-center">
-            <h6 class="count h2">850</h6>
-            <p class="m-0px font-w-600">Ukupna zarada</p>
+            <h6 class="count h2"> <%= user.number_of_ratings %></h6>
+            <p class="m-0px font-w-600">Broj Ocjena </p>
           </div>
         </div>
 
         <div class="col-6 col-lg-3">
           <div class="count-data text-center">
-            <h6 class="count h2">7.2</h6>
+            <h6 class="count h2"><%= user.user_rating %></h6>
             <p class="m-0px font-w-600">Prosjecna ocjena</p>
           </div>
         </div>

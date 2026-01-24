@@ -1,8 +1,7 @@
 <div class="container mt-5">
 
 
-  <h1>buyerr id <%= buyer_id %>
-  </h1>
+  <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
   
 
 
@@ -14,16 +13,17 @@
 <ul>
   <% online.forEach(id => { %>
     <li>
-      <a href="/chat/<%= id %>">
-        Chat sa korisnikom #<%= id %>
-      </a>
-    </li>
+  <a href="/chat/<%= id %>" class="chat-btn">
+    💬 Chat sa korisnikom #<%= id %>
+  </a>
+</li>
+
   <% }) %>
 </ul>
 
 
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
+    
 
     <form id="filterForm" class="d-flex align-items-center gap-2 mb-4">
 

@@ -14,8 +14,14 @@ module.exports = {
         console.log("--------------------");
 
         
+        const onlineUsers = req.app.get("onlineUsers");
+        onlineUsers.delete(req.signedCookies.user.id);
+        const online = Array.from(onlineUsers.keys());
 
-        res.render('adminProfil', { kupci: allKupci, prodavci: allProdavci,alllanguages,allgenres });
+      
+
+
+        res.render('adminProfil', { kupci: allKupci, prodavci: allProdavci,alllanguages,allgenres,online });
     },
 
     async blockUser(req, res) {

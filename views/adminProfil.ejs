@@ -12,6 +12,18 @@
     <button id="adminAlertBtn" class="btn btn-danger mt-2" onclick="AdminAlert()">Pošalji live alert</button>
 </div>
 
+  <h4>Online korisnici</h4>
+<ul>
+  <% online.forEach(id => { %>
+    <li>
+  <a href="/chat/<%= id %>" class="chat-btn">
+    💬 Chat sa korisnikom #<%= id %>
+  </a>
+</li>
+
+  <% }) %>
+</ul>
+
 
 
 <div class="card mb-4">

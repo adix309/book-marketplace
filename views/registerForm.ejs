@@ -5,37 +5,31 @@
 <div class="container mt-4 p-4 border rounded bg-light">
   <form id="registration_form">
 
-    <!-- Ime -->
     <div class="form-group mb-3">
       <label>Ime</label>
       <input type="text" class="form-control" name="first_name" required>
     </div>
 
-    <!-- Prezime -->
     <div class="form-group mb-3">
       <label>Prezime</label>
       <input type="text" class="form-control" name="last_name" required>
     </div>
 
-    <!-- Email -->
     <div class="form-group mb-3">
       <label>Email</label>
       <input type="email" class="form-control" name="email" required>
     </div>
 
-    <!-- Password -->
     <div class="form-group mb-3">
       <label>šifra</label>
       <input type="password" class="form-control" name="password" required>
     </div>
 
-    <!-- Godine -->
     <div class="form-group mb-3">
       <label>Godine</label>
       <input type="number" class="form-control" name="age" required>
     </div>
 
-    <!-- Spol -->
     <div class="form-group mb-3">
       <label>Spol</label>
       <select class="form-control" name="gender" required>
@@ -46,25 +40,21 @@
       </select>
     </div>
 
-    <!-- Telefon -->
     <div class="form-group mb-3">
       <label>Broj telefona</label>
       <input type="tel" class="form-control" name="phone" placeholder="+387 222-333">
     </div>
 
-    <!-- Država -->
     <div class="form-group mb-3">
       <label>Država</label>
       <input type="text" class="form-control" name="country" placeholder="BiH">
     </div>
 
-    <!-- Grad -->
     <div class="form-group mb-3">
       <label>Grad</label>
       <input type="text" class="form-control" name="city" placeholder="Sarajevo">
     </div>
 
-    <!-- STATUS (hidden – backend kontrola) -->
     <input type="hidden" name="status" value="AKTIVAN">
 
 
@@ -87,7 +77,6 @@
       <h5 class="mb-3">Preferencije kupca</h5>
 
 
-      <!-- ŽANROVI -->
       <div class="form-group mb-4">
         <label class="fw-bold mb-2 d-block">Žanrovi koje voliš</label>
 
@@ -105,7 +94,6 @@
         </div>
       </div>
       
-      <!-- JEZICI -->
       <div class="form-group mb-3">
         <label class="fw-bold mb-2 d-block">Jezici koje čitaš</label>
 
@@ -132,7 +120,6 @@
 
 
 
-    <!-- Opis -->
     <div class="form-group mb-4">
       <label>About you</label>
       <textarea class="form-control" name="bio" rows="4" placeholder="Short description about yourself..."></textarea>

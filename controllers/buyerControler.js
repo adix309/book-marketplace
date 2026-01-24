@@ -19,9 +19,9 @@ module.exports = {
 
 
         const onlineUsers = req.app.get("onlineUsers");
+        onlineUsers.delete(req.signedCookies.user.id);
         const online = Array.from(onlineUsers.keys());
 
-        console.log("ovo su ti online: ",online);
 
         res.render('ProfilOdBuyera', {
             title: name.first_name,

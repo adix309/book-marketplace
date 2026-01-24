@@ -18,10 +18,24 @@ module.exports = {
       const allgenres = await userservice.getAllGenres();
 
       const onlineUsers = req.app.get("onlineUsers");
+      onlineUsers.delete(req.signedCookies.user.id);
       const online = Array.from(onlineUsers.keys());
 
-        console.log("ovo su ti online: ",online);
-      console.log("---------------------");
+      console.log(user );
+      let brojKnjigaAktivnih = 0;
+      let brojKnjigaProdanih = 0;
+      for (let book of books) {
+        if (book.status === 'AKTIVNA') {
+          brojKnjigaAktivnih++;
+        }
+        if (book.status === 'PRODANA') {
+          brojKnjigaProdanih++;
+        }
+      }
+      console.log("broj aktivnih knjiga je ", brojKnjigaAktivnih);
+      console.log("broj prodanih knjiga je ", brojKnjigaProdanih);
+      user.brojKnjigaAktivnih = brojKnjigaAktivnih;
+      user.brojKnjigaProdanih = brojKnjigaProdanih;
 
       res.render('ProfilOdUsera', {
         title: 'Users page',
