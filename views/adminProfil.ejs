@@ -1,18 +1,32 @@
-<h1>Admin Profil</h1>
-<hr>
+<main class="admin-page">
+    <div class="container admin-container">
+        <section class="admin-hero">
+            <div>
+                <span class="eyebrow">Kontrolni panel</span>
+                <h1>Admin profil</h1>
+                <p>Upravljaj korisnicima, sadržajem i obavijestima marketplacea.</p>
+            </div>
+            <a class="admin-logout" href="/admin/logout">Odjava</a>
+        </section>
 
-<button class="button">
+        <section class="admin-alert-panel">
+            <div>
+                <span class="eyebrow">Komunikacija</span>
+                <h2>Live obavijest</h2>
+                <p>Pošalji kratku poruku svim trenutno povezanim korisnicima.</p>
+            </div>
+            <div class="alert-composer">
+                <input id="adminAlertInput" class="form-control" placeholder="Napiši alert..." />
+                <button id="adminAlertBtn" class="btn btn-danger" onclick="AdminAlert()">Pošalji obavijest</button>
+            </div>
+        </section>
 
-    <span class=""><a href="/admin/logout">Logout</a></span>
-
-</button>
-<hr>
-<div style="margin: 15px 0;">
-    <input id="adminAlertInput" class="form-control" placeholder="Napiši alert..." />
-    <button id="adminAlertBtn" class="btn btn-danger mt-2" onclick="AdminAlert()">Pošalji live alert</button>
-</div>
-
-  <h4>Online korisnici</h4>
+    <section class="online-panel" aria-label="Online korisnici">
+        <div class="online-heading">
+            <span class="online-dot"></span>
+            <h2>Online korisnici</h2>
+            <span class="online-count"><%= online.length %></span>
+        </div>
 <ul>
   <% online.forEach(id => { %>
     <li>
@@ -23,10 +37,12 @@
 
   <% }) %>
 </ul>
+    </section>
 
 
 
-<div class="card mb-4">
+<section class="admin-settings">
+<div class="card mb-4 settings-card">
     <div class="card-header fw-bold"> 🌍 Jezici </div>
 
     <div class="card-body ">
@@ -51,7 +67,7 @@
 
 
 <br>
-<div class="card mb-4">
+<div class="card mb-4 settings-card">
     <div class="card-header fw-bold">
         📘 Žanrovi
     </div>
@@ -76,7 +92,10 @@
 
 
 <hr>
-<h2 class="mt-4 mb-3">👤 Kupci</h2>
+<div class="admin-section-heading">
+    <span class="eyebrow">Korisnici</span>
+    <h2 class="mt-4 mb-3">Kupci</h2>
+</div>
 
 <div class="row g-3">
     <% kupci.forEach(kupac=> { %>
@@ -144,7 +163,10 @@
 </div>
 
 
-<h2 class="mt-5 mb-3">🏪 Prodavači</h2>
+<div class="admin-section-heading">
+    <span class="eyebrow">Korisnici</span>
+    <h2 class="mt-5 mb-3">Prodavači</h2>
+</div>
 
 <div class="row g-3">
     <% prodavci.forEach(prodavac=> { %>
@@ -207,6 +229,8 @@
         </div>
         <% }) %>
 </div>
+
+</section>
 
 
 <script>
@@ -333,4 +357,7 @@
     }
 
 
-</script>
+        </script>
+    </div>
+</main>
+   

@@ -51,14 +51,13 @@ module.exports = {
             const buyer_id = req.signedCookies.user.id;
             const BooksFromCart = await buyerservice.BooksFromCart(buyer_id);
             const cartstatus = await buyerservice.cartstatus();
-
             const MyOrderBooks = await buyerservice.MyOrderBooks(buyer_id);
 
             console.log(" sve sto sam ja narucio ",MyOrderBooks);
 
-            
-
-            res.render('cart', { BooksFromCart, cartstatus,MyOrderBooks });
+            res.render('cart', { 
+                css: '/stylesheets/cart.css',
+                BooksFromCart, cartstatus,MyOrderBooks });
         } catch (err) {
             console.log("ne moze", err);
 
@@ -93,7 +92,7 @@ module.exports = {
     },
     async review(req,res){
         try{
-            console.log("doso evo ti req.body",req.body,"---",req.body.book_rating,"---",req.body.comment);
+            //console.log("doso evo ti req.body",req.body,"---",req.body.book_rating,"---",req.body.comment);
             const result = await buyerservice.BookCommentRating(req.body.order_id,req.body.book_rating,req.body.comment);
             
             const result1= await buyerservice.rateSeller(req.body.seller_id,req.body.seller_rating);

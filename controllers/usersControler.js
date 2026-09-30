@@ -12,7 +12,7 @@ module.exports = {
     try {
       console.log("---------------------");
       const cookieUser = req.signedCookies.user;
-      const user = await userservice.getUserById(cookieUser.id);
+      const user =  await userservice.getUserById(cookieUser.id);
       const books = await userservice.getBooksByUser(cookieUser.id);
       const alllanguages = await userservice.getAllLanguages();
       const allgenres = await userservice.getAllGenres();
@@ -21,7 +21,7 @@ module.exports = {
       onlineUsers.delete(req.signedCookies.user.id);
       const online = Array.from(onlineUsers.keys());
 
-      console.log(user );
+      console.log(user);
       let brojKnjigaAktivnih = 0;
       let brojKnjigaProdanih = 0;
       for (let book of books) {
@@ -40,15 +40,12 @@ module.exports = {
       res.render('ProfilOdUsera', {
         title: 'Users page',
         css: '/stylesheets/Profiluser.css',
-        user, books,alllanguages,allgenres,online
-      });
-    } catch (err) {
+        user, books,alllanguages,allgenres,online });
+    }catch (err) {
       console.error(err);
       res.status(500).send("Greška na bazi");
     }
   },
-
-
 
 
   RenderUserLogin(req, res, next) {
@@ -63,10 +60,10 @@ module.exports = {
     res.render('registerForm', { title: 'Register', jezici, zanrovi });
   },
 
-  //POST RUTA 
+  //POST  
   async LoginUser(req, res, next) {
     try {
-      console.log("radi--------------------------");
+      
       const { email, password } = req.body;
 
       if (!email || !password) {
@@ -110,11 +107,9 @@ module.exports = {
   },
 
 
-  //POST RUTA 
+  //POST  
   async RegisterUser(req, res, next) {
     try {
-
-
       const { first_name, last_name, email, password, age, gender, phone, country, city,
         role, status, bio, selectedGenres, selectedLanguages } = req.body;
         
@@ -212,7 +207,7 @@ module.exports = {
   async cart(req, res) {
     try {
       const seller_id = req.signedCookies.user.id;
-      console.log("seler id je ", seller_id);
+      console.log("seler id je -----------", seller_id);
       const MyPartFromCart = await userservice.MyPartFromCart(seller_id);
       //const BuyersFrom  = await userservice.allBuyerID();
       res.render('CartForSeller', { MyPartFromCart });
@@ -236,7 +231,8 @@ module.exports = {
     
 
 /*
-stavio triger na orders kad se tu nesto upise ,da se taj item   brise iz cart_items..znaci nesto ode u orders nema ga vise u nicijoj korpi
+stavio triger na orders kad se tu nesto upise ,da se taj isti item brise iz cart_items...
+znaci nesto ode u orders nema ga vise u nicijoj korpi
 
 CREATE OR REPLACE FUNCTION trg_orders_delete_cart_item()
 RETURNS TRIGGER AS $$
@@ -260,7 +256,10 @@ EXECUTE FUNCTION trg_orders_delete_cart_item();
 
 
 /*
-  sad zelim da uradim triger ako je prihvacena narudjba da se promjeni status te knjige u tabli books
+OVO VISE NE UPOTREBLJAVAM JER SAM PROMJENIO STRUKTURU TABELE !!!!!!!!
+
+  sad zelim da uradim triger ako je prihvacena narudjba da se promjeni status te
+  knjige u tabli books
 
 CREATE OR REPLACE FUNCTION trg_orders_set_book_sold()
 RETURNS TRIGGER AS $$

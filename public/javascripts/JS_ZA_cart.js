@@ -52,7 +52,7 @@ function submitReview(e, form) {
   $.ajax({
     url: "/buyer/review",   
     method: "PATCH",
-    data:$(form).serialize(),//parsira formu da bi bila citljivija  
+    data:$(form).serialize(),//parsira formu da bi bila citljivija ,slicno kao FormData
     success: function () {
       alert("ocjenio si uspjesno ");
      $(form).find("input, select, button").prop("disabled", true);

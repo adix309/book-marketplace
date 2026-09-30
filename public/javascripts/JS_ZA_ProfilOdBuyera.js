@@ -12,8 +12,8 @@ function openBookModal(book) {
   $("#modalStatus").text(book.status || "—");
 
   // OSTALO
-  $("#modalGenre").text(book.genre_name || "!—");
-  $("#modalLanguage").text(book.language_name || "—");
+  $("#modalGenre").text(book.genre.name || "!—");
+  $("#modalLanguage").text(book.language.name || "—");
   $("#modalYear").text(book.publication_year || "—");
   $("#modalCondition").text(book.condition ?? "—");
 

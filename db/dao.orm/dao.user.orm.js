@@ -54,6 +54,7 @@ module.exports = {
 
     if (selectedGenres.length > 0) {
       await user.$relatedQuery('genres').relate(selectedGenres);
+      //da sam pozvo nad instancom genres moro bi slat listu users(nemoguce)
     }
 
     if (selectedLanguages.length > 0) {
@@ -135,7 +136,7 @@ module.exports = {
     return deletedBook;
   },
 
-  //prebaci na orm 
+  
   async MyPartFromCart(seller_id) {
     const result = await pool.query(
       `SELECT b.*

@@ -7,20 +7,14 @@ const Order =     require('../models/Orders.js');
 module.exports = {
 
     async AllBooks() {
-        
-        const result = await Book.query()
-            .leftJoin('languages', 'languages.id', 'books.language_id')
-            .leftJoin('genres', 'genres.id', 'books.genre_id')
-            .select('books.*',
-                'languages.name AS language_name',
-                'genres.name AS genre_name'
-            );
+      
         const result1 = await Book
             .query()
             .withGraphFetched('[language, genre]');
-
+        
+        //return await Book.query();
         //console.log("obicni rezultat ",result);
-        // console.log("sa relation maping rezultat ",result1);
+        //console.log("---------sa relation maping rezultat ",result1);
         return result1;
     }
     ,
@@ -47,7 +41,7 @@ module.exports = {
             .withGraphFetched('book');
 
         const result1 = items.map(item => item.book);
-        //ili sam ovo mogo rjesit nekako bolje ?
+        //ili sam ovo mogo rjesit nekako bolje da bi vratio samo podobjekte book ?
 
 
 

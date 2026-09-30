@@ -21,15 +21,22 @@ module.exports = {
       
 
 
-        res.render('adminProfil', { kupci: allKupci, prodavci: allProdavci,alllanguages,allgenres,online });
+        res.render('adminProfil', {
+            css: '/stylesheets/adminProfil.css',
+            kupci: allKupci,
+            prodavci: allProdavci,
+            alllanguages,
+            allgenres,
+            online
+        });
     },
 
     async blockUser(req, res) {
         const userId = req.params.id;
         const status = req.body.type;
 
-        console.log("User ID to block:", userId);
-        console.log("Block status:", status);
+        console.log("User ID block:", userId);
+        console.log("status:", status);
 
         await adminservice.updateUserStatus(userId, status);
 
@@ -37,9 +44,8 @@ module.exports = {
     },
     async deleteLanguage (req, res) {
         try{
-        console.log("Received request to delete language");
         const languageId = req.params.id;
-        console.log("Deleting language with ID:", languageId);
+        console.log("languageId ID:", languageId);
         await adminservice.deleteLanguage(languageId);
         res.status(200).json({ message: "Language deleted successfully" });
         } catch(err){
@@ -50,9 +56,8 @@ module.exports = {
     },
     async deleteGenre (req, res) {
         try{
-        console.log("Received request to delete genre");
         const genreId = req.params.id;
-        console.log("Deleting genre with ID:", genreId);
+        console.log(" genre  ID:", genreId);
         await adminservice.deleteGenre(genreId);
         res.status(200).json({ message: "Genre deleted successfully" });
         } catch(err){

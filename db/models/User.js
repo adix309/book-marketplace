@@ -1,9 +1,7 @@
 const Model = require('../db.orm.js');
 
 class User extends Model {
-  static get tableName() {
-    return 'users';
-  }
+  static get tableName() {    return 'users';  }
 
   static get relationMappings() {
     const Lan = require('./Language.js');

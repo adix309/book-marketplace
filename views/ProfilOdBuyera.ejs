@@ -1,31 +1,45 @@
-<div class="container mt-5">
+<main class="buyer-page">
+  <div class="container buyer-container">
+    <section class="buyer-hero">
+      <div>
+        <span class="eyebrow">Book Marketplace</span>
+        <h1 class="page-title">Dobrodošao, <%= title %></h1>
+        <p>Pronađi sljedeću knjigu za svoju kolekciju.</p>
+      </div>
+      <a href="/buyer/logout" class="logout-button">Odjava</a>
+    </section>
+
+  <section class="online-panel" aria-label="Online korisnici">
+    <div class="online-heading">
+      <span class="online-dot"></span>
+      <h2 class="online-title">Online korisnici</h2>
+    </div>
+  <ul class="online-list">
+    <% if (online.length===0) { %>
+      <li class="empty-online">
+        Trenutno nema online korisnika.
+      </li>
+      <% } else { %>
+        <% online.forEach(id=> { %>
+          <li>
+            <a href="/chat/<%= id %>" class="chat-btn">
+              💬 Chat sa korisnikom #<%= id %>
+            </a>
+          </li>
+          <% }) %>
+            <% } %>
+  </ul>
+  </section>
 
 
-  <h2 class="fw-bold mb-0">Dobrodošao, <%= title %>👋</h2>
-  
+  <div class="catalog-toolbar mb-5">
 
 
-  <button class="button">
-    <span class="button_text"><a href="/buyer/logout">Logout</a></span>
-  </button>
-
-  <h4>Online korisnici</h4>
-<ul>
-  <% online.forEach(id => { %>
-    <li>
-  <a href="/chat/<%= id %>" class="chat-btn">
-    💬 Chat sa korisnikom #<%= id %>
-  </a>
-</li>
-
-  <% }) %>
-</ul>
-
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    
-
-    <form id="filterForm" class="d-flex align-items-center gap-2 mb-4">
+    <div>
+      <span class="eyebrow">Istraži ponudu</span>
+      <h2>Pronađi knjigu</h2>
+    </div>
+    <form id="filterForm" class="filter-panel">
 
       <!-- ŽANR -->
       <select id="filterGenre" class="form-select form-select-sm" style="width:160px">
@@ -64,7 +78,9 @@
       <button type="submit" class="btn btn-sm btn-primary">
         Filter
       </button>
-      <button><a href="/buyer/cart">korpa</a></button>
+      <a href="/buyer/cart" class="cart-button">
+        Korpa <span aria-hidden="true">→</span>
+      </a>
 
     </form>
 
@@ -75,13 +91,16 @@
 
 
   <!-- ================= NAJPOPULARNIJE ================= -->
-  <section class="mb-5">
-    <h4 class="mb-3">🔥 Najpopularnije knjige</h4>
+  <section class="catalog-section mb-5">
+    <div class="section-heading">
+      <span class="section-number">01</span>
+      <div><span class="eyebrow">Najviše pažnje</span><h2>Najpopularnije knjige</h2></div>
+    </div>
 
     <div class="row g-4">
       <% AllBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>"
             onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
             <div class="card-body">
@@ -99,13 +118,13 @@
 
               <p>
                 <span class="badge bg-info">
-                  <%= book.genre_name || 'Žanr' %>
+                  <%= book.genre.name || 'Žanr' %>
                 </span>
                 <span class="badge bg-success">
                   <%= book.status %>
                 </span>
                 <strong>Jezik:</strong>
-                <%= book.language_name || '—' %>
+                <%= book.language.name || '—' %>
 
               </p>
             </div>
@@ -117,13 +136,16 @@
   </section>
 
   <!-- ================= RANDOM ================= -->
-  <section class="mb-5">
-    <h4 class="mb-3">🎲 Slučajno odabrane knjige</h4>
+  <section class="catalog-section mb-5">
+    <div class="section-heading">
+      <span class="section-number">02</span>
+      <div><span class="eyebrow">Za malo iznenađenja</span><h2>Slučajno odabrane knjige</h2></div>
+    </div>
 
     <div class="row g-4">
       <% randomBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>"
             onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
             <div class="card-body">
@@ -154,13 +176,16 @@
   </section>
 
   <!-- ================= PREPORUČENE ================= -->
-  <section class="mb-5">
-    <h4 class="mb-3">⭐ Preporučene za vas</h4>
+  <section class="catalog-section mb-5">
+    <div class="section-heading">
+      <span class="section-number">03</span>
+      <div><span class="eyebrow">Odabrano za tebe</span><h2>Preporučene za vas</h2></div>
+    </div>
 
     <div class="row g-4">
       <% recommendedBooks.forEach(book=> { %>
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>" class="card book-card"
+          <div class="card h-100 shadow-sm book-card" id="book_<%= book.id %>"
             onclick='openBookModal(<%- JSON.stringify(book) %>)'>
 
 
@@ -192,6 +217,7 @@
   </section>
 
 </div>
+</main>
 
 <!-- ================= MODAL ================= -->
 <div class="modal fade" id="bookModal" tabindex="-1">

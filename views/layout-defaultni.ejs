@@ -9,6 +9,7 @@
   </title>
 
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/header.css">
 
    <!-- ucitaj css ako sam ga poslo -->
   <% if (typeof css !=='undefined' ) { %>
@@ -28,18 +29,24 @@
     <script>    window.socket = io();    </script>
 
 
-<header>  
-    <nav class="navbar navbar-expand-lg shadow-sm" style="background-color:#dbeafe;">
-      <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="/">
-          📚 Book Marketplace
-        </a>
+<header class="site-header">
+  <nav class="navbar">
+    <div class="container header-content">
 
-        <div class="ms-auto text-muted small">
-          Kupuj • Prodaj • Razmjenjuj knjige
-        </div>
+      <a class="brand" href="">
+        <span class="brand-icon">📚</span>
+        <span>
+          <strong>Book Marketplace</strong>
+          <small>Mjesto za ljubitelje knjiga</small>
+        </span>
+      </a>
+
+      <div class="header-slogan">
+        Kupuj <span>•</span> Prodaj <span>•</span> Razmjenjuj
       </div>
-    </nav>
+
+    </div>
+  </nav>
 </header>
 
 

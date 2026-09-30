@@ -15,17 +15,15 @@ var chatRouter = require('./routes/RoutesForChat.js');
 
 var app = express();
 
-/* ================================
-   VIEW ENGINE
-================================ */
+// VIEW ENGINE
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts); 
 app.set("layout", "layout-defaultni"); 
 
-/* ================================
-   MIDDLEWARE
-================================ */
+//MIDDLEWARE
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -42,9 +40,8 @@ app.use('/jquery',
 
 
 
-/*=================================
-   web soketi  
-  ================================= */
+// web soketi  
+
 
 app.use((req, res, next) => {
   res.locals.user = null;
@@ -52,9 +49,8 @@ app.use((req, res, next) => {
 });
 
 
-/* ================================
-   AUTH MIDDLEWARE  cokiee
-================================ */
+//AUTH MIDDLEWARE  cokiee
+
 const publicPaths = [
       "/users/usersLogin",
       "/users/usersRegister",
@@ -89,7 +85,7 @@ app.use((req,res,next) => {
    // Ako postoji cookie → user je logovan
   req.user = user;
 
-  res.locals.user = user;//dodaj na taj objekat i user ,treba nam za sokete jer se vidi u svakom renderu
+  res.locals.user = user;
 
 
 
@@ -103,9 +99,8 @@ app.use((req,res,next) => {
 
 
 
-/* ================================
-   ROUTES
-================================ */
+//ROUTES
+
 
 app.use("/users",userRouter);
 app.use("/buyer",buyerRouter);
@@ -113,9 +108,8 @@ app.use("/admin",adminRouter);
 
 app.use("/chat",chatRouter);
 
-/* ================================
-   ERROR HANDLERS
-================================ */
+//ERROR HANDLERS
+
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -134,3 +128,7 @@ module.exports = app;
 
 //terminal 1:npm run dev
 //terminal 2:npm run sync
+
+
+// dao.buyer.orm.js
+//userControler.js

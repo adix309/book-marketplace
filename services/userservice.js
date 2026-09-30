@@ -83,7 +83,6 @@ module.exports = {
   },
 
   async MyPartFromCart(seller_id) {
-
     return await ormQuery.MyPartFromCart(seller_id);
   },
 
